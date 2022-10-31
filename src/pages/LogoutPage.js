@@ -5,6 +5,7 @@ import { deleteJwtToken } from '../helpers/AuthManager';
 
 function LogoutPage() {
   const navigate = useNavigate();
+  console.log('logoutPage');
   useEffect(() => {
     try {
       myPrivateAxios({ method: 'post', url: '/log_out' }).then((res) => {

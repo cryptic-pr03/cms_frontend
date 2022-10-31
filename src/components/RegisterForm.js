@@ -183,8 +183,8 @@ export default function RegisterForm({ onSubmit }) {
 
           {/* ROLE */}
           <FormControl
-            name="typeUser"
-            error={(Boolean(errors.typeUser))}
+            name="typeUserCode"
+            error={(Boolean(errors.typeUserCode))}
             fullWidth
             sx={{
               mt: 5,
@@ -193,16 +193,16 @@ export default function RegisterForm({ onSubmit }) {
             <FormLabel>Register as: </FormLabel>
             <RadioGroup
               row
-              name="typeUser"
+              name="typeUserCode"
               sx={{
                 display: 'flex',
                 justifyContent: 'space-around',
               }}
             >
-              <FormControlLabel value="Audience" control={<Radio {...register('typeUser', { required: 'Choose your role' })} />} label="Audience" />
-              <FormControlLabel value="Artist Manager" control={<Radio {...register('typeUser', { required: 'Choose your role' })} />} label="Artist Manager" />
+              <FormControlLabel value={1} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Audience" />
+              <FormControlLabel value={2} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Artist Manager" />
             </RadioGroup>
-            <FormHelperText style={{ color: '#d32f2f' }}>{errors.typeUser?.message}</FormHelperText>
+            <FormHelperText style={{ color: '#d32f2f' }}>{errors.typeUserCode?.message}</FormHelperText>
           </FormControl>
 
           {/* SUBMIT */}

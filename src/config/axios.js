@@ -8,7 +8,6 @@ const myAxios = axios.create({
 export const myPrivateAxios = axios.create({
   baseURL: BASE_URL,
   headers: {
-    'content-type': 'application/json',
     Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
   },
 });
