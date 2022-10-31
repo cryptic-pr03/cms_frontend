@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useState } from 'react';
 import {
   FormControl,
@@ -26,9 +27,18 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function RegisterForm({ onSubmit }) {
   const [showPassword, setShowPassword] = useState(false);
+  const [gender, setGender] = useState('');
+  const [DOB, setDOB] = useState(new Date());
 
-  const handleClickShowPassword = () => {
-    setShowPassword(() => !showPassword);
+  const handleClickShowPassword = () => setShowPassword(() => !showPassword);
+  const handleGenderChange = (e) => {
+    console.log(e.target.value);
+    setGender(e.target.value);
+  };
+  const handleDOBChange = (newDOB) => {
+    const d = `${newDOB.$D}/${newDOB.$M + 1}/${newDOB.$y}`;
+    console.log(d);
+    setDOB(d);
   };
 
   function eyeButton() {
@@ -46,9 +56,10 @@ export default function RegisterForm({ onSubmit }) {
   }
 
   const {
-    register, handleSubmit, formState: { errors },
+    register, watch, handleSubmit, formState: { errors },
   } = useForm();
 
+  console.log('render');
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -133,33 +144,42 @@ export default function RegisterForm({ onSubmit }) {
             helperText={errors.password?.message}
           />
 
-          <Box>
+          <FormControl fullWidth>
+            <InputLabel>Gender</InputLabel>
+            <Select
+              id="gender"
+              label="Gender"
+              name="gender"
+              autoWidth
+              onChange={handleGenderChange}
+              value={gender}
+            >
+              <MenuItem value="Male" {...register('gender')}>Male</MenuItem>
+              <MenuItem value="Female" {...register('gender')}>Female</MenuItem>
+              <MenuItem value="NA" {...register('gender')}>Prefer not to say</MenuItem>
+            </Select>
+          </FormControl>
 
-            <FormControl fullWidth>
-              <InputLabel>Gender</InputLabel>
-              <Select
-                id="gender"
-                label="Gender"
-                name="gender"
-                autoWidth
-              >
-                <MenuItem>Male</MenuItem>
-                <MenuItem>Female</MenuItem>
-                <MenuItem>Prefer not to say</MenuItem>
-              </Select>
-            </FormControl>
-
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Date of Birth"
-                inputFormat="MM/DD/YYYY"
-                fullWidth
-                // onChange={}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-
-          </Box>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopDatePicker
+              label="Date of Birth"
+              inputFormat="DD/MM/YYYY"
+              name="DOB"
+              id="DOB"
+              maxDate={new Date()}
+              fullWidth
+              onChange={handleDOBChange}
+              value={DOB}
+              {...register('DOB')}
+              renderInput={(params) => (
+                <TextField
+                  name="DOB"
+                  id="DOB"
+                  {...params}
+                />
+              )}
+            />
+          </LocalizationProvider>
 
           {/* ROLE */}
           <FormControl
@@ -170,7 +190,7 @@ export default function RegisterForm({ onSubmit }) {
               mt: 5,
             }}
           >
-            <FormLabel>Login as: </FormLabel>
+            <FormLabel>Register as: </FormLabel>
             <RadioGroup
               row
               name="typeUser"
@@ -180,7 +200,6 @@ export default function RegisterForm({ onSubmit }) {
               }}
             >
               <FormControlLabel value="Audience" control={<Radio {...register('typeUser', { required: 'Choose your role' })} />} label="Audience" />
-              <FormControlLabel value="Staff" control={<Radio {...register('typeUser', { required: 'Choose your role' })} />} label="Staff" />
               <FormControlLabel value="Artist Manager" control={<Radio {...register('typeUser', { required: 'Choose your role' })} />} label="Artist Manager" />
             </RadioGroup>
             <FormHelperText style={{ color: '#d32f2f' }}>{errors.typeUser?.message}</FormHelperText>

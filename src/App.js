@@ -1,12 +1,12 @@
 import { CssBaseline } from '@mui/material';
 import './App.css';
-import Routers from './Routers';
+import Router from './Router';
 
 function App() {
   return (
     <div>
       <CssBaseline />
-      <Routers />
+      <Router />
     </div>
   );
 }

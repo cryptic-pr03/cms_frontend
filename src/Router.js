@@ -9,7 +9,7 @@ import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
 import MakePayment from './pages/MakePayment';
-import RegProfilePage from './pages/RegProfilePage';
+import LogoutPage from './pages/LogoutPage';
 
 function Routers() {
   return (
@@ -17,6 +17,7 @@ function Routers() {
 
       {/* LOGIN PAGE */}
       <Route exact path="/login" element={<LoginPage />} />
+      <Route exact path="/logout" element={<LogoutPage />} />
       {/* REGISTRATION PAGE */}
       <Route exact path="/register" element={<RegisterPage />} />
       {/* EVENTS PAGE */}
@@ -30,7 +31,6 @@ function Routers() {
       <Route exact path="/makePayment/:slotId" element={<MakePayment />} />
 
       <Route exact path="/profile" element={<ProfilePage />} />
-      <Route exact path="/regProfile" element={<RegProfilePage />} />
 
       <Route path="/*" element={<NotFoundPage />} />
 
