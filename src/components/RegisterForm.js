@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { useState } from 'react';
 import {
   FormControl,
@@ -17,29 +16,18 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Paper,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockClockOutlined';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function RegisterForm({ onSubmit }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [gender, setGender] = useState('');
-  const [DOB, setDOB] = useState(new Date());
-
   const handleClickShowPassword = () => setShowPassword(() => !showPassword);
-  const handleGenderChange = (e) => {
-    console.log(e.target.value);
-    setGender(e.target.value);
-  };
-  const handleDOBChange = (newDOB) => {
-    const d = `${newDOB.$D}/${newDOB.$M + 1}/${newDOB.$y}`;
-    console.log(d);
-    setDOB(d);
-  };
 
   function eyeButton() {
     return (
@@ -56,15 +44,15 @@ export default function RegisterForm({ onSubmit }) {
   }
 
   const {
-    register, watch, handleSubmit, formState: { errors },
+    register, watch, handleSubmit, formState: { errors }, control,
   } = useForm();
 
-  console.log('render');
+  console.log(watch());
   return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
+          marginY: 8,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -74,137 +62,156 @@ export default function RegisterForm({ onSubmit }) {
         <Typography component="h1" variant="h5"> Register </Typography>
 
         {/* FORM */}
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1, mb: 0 }}>
+          <Stack sx={{ width: 350 }} spacing={1}>
+            <TextField
+              label="First Name"
+              id="firstName"
+              name="firstName"
+              margin="normal"
+              required
+              fullWidth
+              autoFocus
+              {...register('firstName', {
+                required: 'First Name required.',
+              })}
+              error={Boolean(errors.firstName)}
+              helperText={errors.firstName?.message}
+            />
+            <TextField
+              label="Last Name"
+              id="lastName"
+              name="lastName"
+              margin="normal"
+              required
+              fullWidth
+              {...register('lastName', {
+                required: 'Last Name required.',
+              })}
+              error={Boolean(errors.lastName)}
+              helperText={errors.lastName?.message}
+            />
 
-          <TextField
-            label="First Name"
-            id="firstName"
-            name="firstName"
-            margin="normal"
-            required
-            fullWidth
-            autoFocus
-            {...register('firstName', {
-              required: 'First Name required.',
-            })}
-            error={Boolean(errors.firstName)}
-            helperText={errors.firstName?.message}
-          />
-          <TextField
-            label="Last Name"
-            id="lastName"
-            name="lastName"
-            margin="normal"
-            required
-            fullWidth
-            autoFocus
-            {...register('lastName', {
-              required: 'Last Name required.',
-            })}
-            error={Boolean(errors.lastName)}
-            helperText={errors.lastName?.message}
-          />
+            {/* EMAIL */}
+            <TextField
+              label="Email Address"
+              id="email"
+              name="email"
+              margin="normal"
+              required
+              fullWidth
+              {...register('email', {
+                required: 'Email Address required.',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Invalid Email Address',
+                },
+              })}
+              error={Boolean(errors.email)}
+              helperText={errors.email?.message}
+            />
 
-          {/* EMAIL */}
-          <TextField
-            label="Email Address"
-            id="email"
-            name="email"
-            margin="normal"
-            required
-            fullWidth
-            autoFocus
-            {...register('email', {
-              required: 'Email Address required.',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Invalid Email Address',
-              },
-            })}
-            error={Boolean(errors.email)}
-            helperText={errors.email?.message}
-          />
+            <TextField
+              label="Cotact Number"
+              id="contactNo"
+              name="contactNo"
+              margin="normal"
+              required
+              fullWidth
+              {...register('contactNo', {
+                required: 'Contact Number required.',
+                pattern: {
+                  value: /^(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g,
+                  message: 'Invalid Contact Number',
+                },
+              })}
+              error={Boolean(errors.contactNo)}
+              helperText={errors.contactNo?.message}
+            />
 
-          {/* PASSSWORD */}
-          <TextField
-            label="Password"
-            name="password"
-            type={showPassword ? 'text' : 'password'}
-            margin="normal"
-            id="password"
-            required
-            fullWidth
-            InputProps={{
-              endAdornment: eyeButton(),
-            }}
-            {...register('password', {
-              required: 'Password required.',
-            })}
-            error={Boolean(errors.password)}
-            helperText={errors.password?.message}
-          />
+            {/* PASSSWORD */}
+            <TextField
+              label="Password"
+              name="password"
+              type={showPassword ? 'text' : 'password'}
+              margin="normal"
+              id="password"
+              required
+              fullWidth
+              InputProps={{
+                endAdornment: eyeButton(),
+              }}
+              {...register('password', {
+                required: 'Password required.',
+              })}
+              error={Boolean(errors.password)}
+              helperText={errors.password?.message}
+            />
 
-          <FormControl fullWidth>
-            <InputLabel>Gender</InputLabel>
-            <Select
-              id="gender"
+            <TextField
+              select
+              fullWidth
               label="Gender"
-              name="gender"
-              autoWidth
-              onChange={handleGenderChange}
-              value={gender}
+              defaultValue=""
+              inputProps={register('gender', {
+                required: 'Please enter gender.',
+              })}
+              error={errors.gender}
+              helperText={errors.gender?.message}
             >
+
               <MenuItem value="Male" {...register('gender')}>Male</MenuItem>
               <MenuItem value="Female" {...register('gender')}>Female</MenuItem>
               <MenuItem value="NA" {...register('gender')}>Prefer not to say</MenuItem>
-            </Select>
-          </FormControl>
+            </TextField>
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DesktopDatePicker
-              label="Date of Birth"
-              inputFormat="DD/MM/YYYY"
+            <Controller
               name="DOB"
-              id="DOB"
-              maxDate={new Date()}
-              fullWidth
-              onChange={handleDOBChange}
-              value={DOB}
-              {...register('DOB')}
-              renderInput={(params) => (
-                <TextField
-                  name="DOB"
-                  id="DOB"
-                  {...params}
-                />
-              )}
+              control={control}
+              render={
+              ({ field: { onChange, ...restField } }) => (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DesktopDatePicker
+                    label="Date of Birth"
+                    inputFormat="DD/MM/YYYY"
+                    disableFuture
+                    onChange={(event) => { onChange(event); }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                      />
+                    )}
+                    {...restField}
+                  />
+                </LocalizationProvider>
+              )
+}
             />
-          </LocalizationProvider>
 
-          {/* ROLE */}
-          <FormControl
-            name="typeUserCode"
-            error={(Boolean(errors.typeUserCode))}
-            fullWidth
-            sx={{
-              mt: 5,
-            }}
-          >
-            <FormLabel>Register as: </FormLabel>
-            <RadioGroup
-              row
+            {/* ROLE */}
+            <FormControl
               name="typeUserCode"
+              error={(Boolean(errors.typeUserCode))}
+              fullWidth
               sx={{
-                display: 'flex',
-                justifyContent: 'space-around',
+                mt: 5,
               }}
             >
-              <FormControlLabel value={1} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Audience" />
-              <FormControlLabel value={2} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Artist Manager" />
-            </RadioGroup>
-            <FormHelperText style={{ color: '#d32f2f' }}>{errors.typeUserCode?.message}</FormHelperText>
-          </FormControl>
-
+              <FormLabel>Register as: </FormLabel>
+              <RadioGroup
+                row
+                name="typeUserCode"
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                }}
+              >
+                <FormControlLabel value={1} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Audience" />
+                <FormControlLabel value={2} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Artist Manager" />
+              </RadioGroup>
+              <FormHelperText style={{ color: '#d32f2f' }}>{errors.typeUserCode?.message}</FormHelperText>
+            </FormControl>
+          </Stack>
           {/* SUBMIT */}
           <Button
             type="submit"
