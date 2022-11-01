@@ -1,0 +1,25 @@
+* {
+    font-family: Caladea, fantasy;
+}
+.opening-div {
+    background-image: url(../../../public/images/concert.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    height: 100vh
+}
+h1{
+    text-align: center;
+    color: yellow;
+}
+h3{
+    padding-top: 40px;
+    text-align: center;
+    color: antiquewhite;
+    font-family: Caladea, fantasy;
+    text-decoration: none;
+}
+a {
+    text-decoration: none;
+}

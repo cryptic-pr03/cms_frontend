@@ -5,6 +5,9 @@ import myAxios from '../config/axios';
 import { getJwtToken } from '../helpers/AuthManager';
 
 function RegisterPage() {
+  useEffect(() => {
+    document.title = 'Register | CMS';
+  });
   const navigate = useNavigate();
   useEffect(() => {
     console.log(getJwtToken());

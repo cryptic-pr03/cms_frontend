@@ -5,6 +5,9 @@ import myAxios, { myPrivateAxios } from '../config/axios';
 import { getCurrentUser, getJwtToken, setJwtToken } from '../helpers/AuthManager';
 
 function LoginPage() {
+  useEffect(() => {
+    document.title = 'Login | CMS';
+  });
   const navigate = useNavigate();
   useEffect(() => {
     console.log(getJwtToken());

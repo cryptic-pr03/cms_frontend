@@ -33,6 +33,10 @@
         "react/jsx-props-no-spreading": "off",
         "eslint consistent-return": "off",
         "no-console": "off",
-        "no-alert": "off"
+        "no-alert": "off",
+        "linebreak-style": [
+            "error",
+            "windows"
+        ]
     }
 }

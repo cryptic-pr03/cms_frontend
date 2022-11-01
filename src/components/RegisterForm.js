@@ -159,7 +159,6 @@ export default function RegisterForm({ onSubmit }) {
               <MenuItem value="NA" {...register('gender')}>Prefer not to say</MenuItem>
             </Select>
           </FormControl>
-
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
               label="Date of Birth"
@@ -217,7 +216,7 @@ export default function RegisterForm({ onSubmit }) {
 
           <Grid container>
             <Grid item>
-              <Link href="/register" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Login
               </Link>
             </Grid>

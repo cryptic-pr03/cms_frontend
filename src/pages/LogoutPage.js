@@ -4,6 +4,9 @@ import { myPrivateAxios } from '../config/axios';
 import { deleteJwtToken } from '../helpers/AuthManager';
 
 function LogoutPage() {
+  useEffect(() => {
+    document.title = 'Logout | CMS';
+  });
   const navigate = useNavigate();
   console.log('logoutPage');
   useEffect(() => {
