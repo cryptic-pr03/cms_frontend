@@ -1,4 +1,9 @@
+import { useEffect } from 'react';
+
 function NotFoundPage() {
+  useEffect(() => {
+    document.title = 'Not Found | CMS';
+  });
   return (
     <div style={{
       marginTop: '18%',
