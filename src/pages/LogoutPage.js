@@ -4,20 +4,19 @@ import { myPrivateAxios } from '../config/axios';
 import { deleteJwtToken } from '../helpers/AuthManager';
 
 function LogoutPage() {
-  useEffect(() => {
-    document.title = 'Logout | CMS';
-  });
   const navigate = useNavigate();
   console.log('logoutPage');
   useEffect(() => {
+    document.title = 'Logout | CMS';
     try {
       myPrivateAxios({ method: 'post', url: '/log_out' }).then((res) => {
         console.log(res.data);
-        deleteJwtToken();
-        navigate('/login');
       });
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
+    } finally {
+      deleteJwtToken();
+      navigate('/login');
     }
   }, []);
 }

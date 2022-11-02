@@ -1,6 +1,14 @@
 function NotFoundPage() {
   return (
-    <div>NotFoundPage</div>
+    <div style={{
+      marginTop: '18%',
+      fontFamily: 'Caladea, fantasy',
+      fontSize: 'xxx-large',
+      textAlign: 'center',
+    }}
+    >
+      Sorry! The requested page does not exist
+    </div>
   );
 }
 
