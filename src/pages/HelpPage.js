@@ -26,7 +26,7 @@ function HelpPage() {
           <ul>
             <li>
               Register on the website providing basic details - first name, last name, email,
-              password, gender and DOB. Choose to register as
+              password, contact, gender and DOB. Choose to register as
               {' '}
               <q>
                 Artist Manager
@@ -57,7 +57,7 @@ function HelpPage() {
             <li>
               {/* eslint-disable-next-line react/no-unknown-property */}
               Register on the website providing your credentials - first name, last name, email,
-              password, gender and DOB. Choose to register as
+              password, contact, gender and DOB. Choose to register as
               {' '}
               <q>
                 Audience
