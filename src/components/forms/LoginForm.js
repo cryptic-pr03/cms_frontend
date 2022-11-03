@@ -118,7 +118,9 @@ export default function LoginForm({ onSubmit }) {
             >
               <FormControlLabel value={1} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Audience" />
               <FormControlLabel value={2} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Artist Manager" />
-              <FormControlLabel value={3} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Staff" />
+              <FormControlLabel value={3} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="General Staff" />
+              <FormControlLabel value={4} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Venue Manager" />
+              <FormControlLabel value={5} control={<Radio {...register('typeUserCode', { required: 'Choose your role' })} />} label="Staff" />
             </RadioGroup>
             <FormHelperText style={{ color: '#d32f2f' }}>{errors.typeUserCode?.message}</FormHelperText>
           </FormControl>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/forms/LoginForm';
 import myAxios, { myPrivateAxios } from '../config/axios';
 import { getCurrentUser, getJwtToken, setJwtToken } from '../helpers/AuthManager';
 
@@ -23,7 +23,8 @@ function LoginPage() {
         role: code,
       },
     }).then((ress) => {
-      alert(ress.data);
+      console.dir(ress.data);
+      alert(ress.data.message);
       navigate('/profile');
     });
   };

@@ -13,10 +13,7 @@ import {
   Typography,
   Container,
   Stack,
-  InputLabel,
-  Select,
   MenuItem,
-  Paper,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockClockOutlined';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -47,7 +44,6 @@ export default function RegisterForm({ onSubmit }) {
     register, watch, handleSubmit, formState: { errors }, control,
   } = useForm();
 
-  console.log(watch());
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -112,7 +108,7 @@ export default function RegisterForm({ onSubmit }) {
             />
 
             <TextField
-              label="Cotact Number"
+              label="Contact Number"
               id="contactNo"
               name="contactNo"
               margin="normal"
@@ -151,6 +147,7 @@ export default function RegisterForm({ onSubmit }) {
             <TextField
               select
               fullWidth
+              required
               label="Gender"
               defaultValue=""
               inputProps={register('gender', {
@@ -159,7 +156,6 @@ export default function RegisterForm({ onSubmit }) {
               error={errors.gender}
               helperText={errors.gender?.message}
             >
-
               <MenuItem value="Male" {...register('gender')}>Male</MenuItem>
               <MenuItem value="Female" {...register('gender')}>Female</MenuItem>
               <MenuItem value="NA" {...register('gender')}>Prefer not to say</MenuItem>
@@ -169,22 +165,23 @@ export default function RegisterForm({ onSubmit }) {
               name="DOB"
               control={control}
               render={
-              ({ field: { onChange, ...restField } }) => (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                    label="Date of Birth"
-                    inputFormat="DD/MM/YYYY"
-                    disableFuture
-                    onChange={(event) => { onChange(event); }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                      />
-                    )}
-                    {...restField}
-                  />
-                </LocalizationProvider>
-              )
+                ({ field: { onChange, ...restField } }) => (
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDatePicker
+                      label="Date of Birth"
+                      inputFormat="DD/MM/YYYY"
+                      disableFuture
+                      onChange={(event) => { onChange(event); }}
+                      renderInput={(params) => (
+                        <TextField
+                          required
+                          {...params}
+                        />
+                      )}
+                      {...restField}
+                    />
+                  </LocalizationProvider>
+                )
 }
             />
 

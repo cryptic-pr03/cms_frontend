@@ -10,11 +10,12 @@ function LogoutPage() {
     try {
       myPrivateAxios({ method: 'post', url: '/log_out' }).then((res) => {
         console.log(res.data);
-        deleteJwtToken();
-        navigate('/login');
       });
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
+    } finally {
+      deleteJwtToken();
+      navigate('/login');
     }
   }, []);
 }

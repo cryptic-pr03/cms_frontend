@@ -10,6 +10,10 @@ import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
 import MakePayment from './pages/MakePayment';
 import LogoutPage from './pages/LogoutPage';
+import VenuePage from './pages/VenuePage';
+import ActionPage from './pages/ActionPage';
+import VenueDetailsPage from './pages/VenueDetailsPage';
+import StaffPage from './pages/StaffPage';
 
 function Routers() {
   return (
@@ -30,7 +34,12 @@ function Routers() {
       <Route exact path="/slots/:slotId" element={<EventDetailsPage />} />
       <Route exact path="/makePayment/:slotId" element={<MakePayment />} />
 
+      <Route exact path="/venue" element={<VenuePage />} />
+      <Route exact path="/venue/:id" element={<VenueDetailsPage />} />
+
       <Route exact path="/profile" element={<ProfilePage />} />
+      <Route exact path="/actions" element={<ActionPage />} />
+      <Route exact path="/staffs" element={<StaffPage />} />
 
       <Route path="/*" element={<NotFoundPage />} />
 
