@@ -14,7 +14,6 @@ function LoginPage() {
   }, []);
 
   const addRole = async (user, code) => {
-    console.log('inallrole');
     await myPrivateAxios({
       method: 'post',
       url: '/newTypeUser',
@@ -22,15 +21,14 @@ function LoginPage() {
         userId: user.userId,
         role: code,
       },
-    }).then((ress) => {
-      console.dir(ress.data);
-      alert(ress.data.message);
+    }).then((res) => {
+      console.dir(res.data);
+      alert(res.data.message);
       navigate('/profile');
-    });
+    }).catch((err) => console.log(err));
   };
 
   const handleSubmit = async (data) => {
-    // console.log(data);
     try {
       await myAxios({
         method: 'post',

@@ -1,7 +1,7 @@
 import { CssBaseline } from '@mui/material';
 import './App.css';
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
+import Footer from './layouts/Footer';
+import Navbar from './layouts/Navbar';
 import Router from './Router';
 
 function App() {
