@@ -1,12 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import {
-  CardActionArea, CardActions, CircularProgress, Grid,
-} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import myAxios, { myPrivateAxios } from '../config/axios';
-import EventDetailsCard from '../components/cards/EventDetailsCard';
+import { myPrivateAxios } from '../config/axios';
+import StaffDetailsCard from '../components/cards/StaffDetailsCard';
 import Layoutt from '../layouts/Layoutt';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -17,17 +14,17 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function EventDetailsPage() {
+function StaffDetailsPage() {
   const params = useParams();
-  const [eventxyz, setEventxyz] = useState([]);
+  const [staffList, setStaff] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const getEventById = async () => {
+  const getStaffById = async () => {
     try {
       console.log('try');
-      await myAxios({ method: 'GET', url: `/event/id/${params.eventId}` }).then((res) => {
-        setEventxyz(res.data);
+      await myPrivateAxios({ method: 'GET', url: `/staff/id/${params.staffId}` }).then((res) => {
+        setStaff(res.data);
         setLoading(false);
       });
       console.log('success');
@@ -38,23 +35,13 @@ function EventDetailsPage() {
   };
 
   useEffect(() => {
-    getEventById();
+    getStaffById();
   }, []);
-
+  console.log('list');
+  console.log(staffList);
   return (
-    <>
-      {loading && <CircularProgress />}
-      {!loading
-      && (
-      <Layoutt
-        contentData={
-          <EventDetailsCard event={eventxyz} />
-    }
-      />
-      )}
-    </>
-
+    <Layoutt contentData={<StaffDetailsCard staff={staffList} />} />
   );
 }
 
-export default EventDetailsPage;
+export default StaffDetailsPage;

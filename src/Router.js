@@ -3,7 +3,6 @@ import React from 'react';
 import BuyTicketsPage from './pages/BuyTicketsPage';
 import EventDetailsPage from './pages/EventDetailsPage';
 import EventsPage from './pages/EventsPage';
-
 import NotFoundPage from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
@@ -14,7 +13,8 @@ import VenuePage from './pages/VenuePage';
 import ActionPage from './pages/ActionPage';
 import VenueDetailsPage from './pages/VenueDetailsPage';
 import StaffPage from './pages/StaffPage';
-import ProfilePage2 from './pages/ProfilePage2';
+import StaffDetailsPage from './pages/StaffDetailsPage';
+import UnauthorizedPage from './pages/UnauthorizedPage';
 
 function Routers() {
   return (
@@ -31,6 +31,11 @@ function Routers() {
       <Route exact path="/buytickets/:eventId" element={<BuyTicketsPage />} />
       <Route exact path="/makePayment/:eventId" element={<MakePayment />} />
 
+      {/* STAFF PAGE */}
+      <Route exact path="/staff/:venueId" element={<StaffPage />} />
+      <Route exact path="/staffDetails/:staffId" element={<StaffDetailsPage />} />
+      <Route exact path="/unauth" element={<UnauthorizedPage />} />
+
       <Route exact path="/slots" element={<EventsPage />} />
       <Route exact path="/slots/:slotId" element={<EventDetailsPage />} />
       <Route exact path="/makePayment/:slotId" element={<MakePayment />} />
@@ -38,7 +43,7 @@ function Routers() {
       <Route exact path="/venue" element={<VenuePage />} />
       <Route exact path="/venue/:id" element={<VenueDetailsPage />} />
 
-      <Route exact path="/profile" element={<ProfilePage2 />} />
+      <Route exact path="/profile" element={<ProfilePage />} />
       <Route exact path="/actions" element={<ActionPage />} />
       <Route exact path="/staffs" element={<StaffPage />} />
 

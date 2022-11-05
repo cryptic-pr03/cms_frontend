@@ -5,6 +5,7 @@ import Slide from '@mui/material/Slide';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentForm from './PayementForm';
+import PaymentModal from './modals/PayementModal';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
@@ -19,7 +20,7 @@ export default function CheckoutDialogue() {
     setOpen(false);
   };
 
-  const stripePromise = loadStripe('STRIPE_PUBLISHABLE_KEY');
+  const stripePromise = loadStripe('pk_test_51M0jJ3SFhwldaWPEsA5N6LZcIKpNEVa4JK0A6hgq80IFMwWTP7PuGSDGepeSRylCRGDcGhXD4RUvEZNjCQLl9dzB00hhcQOeT6');
 
   return (
     <>
@@ -33,7 +34,8 @@ export default function CheckoutDialogue() {
         TransitionComponent={Transition}
       >
         <Elements stripe={stripePromise}>
-          <PaymentForm />
+          <PaymentModal />
+          {/* <PaymentForm /> */}
         </Elements>
 
       </Dialog>

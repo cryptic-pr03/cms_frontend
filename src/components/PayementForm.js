@@ -1,46 +1,111 @@
-import { Box, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import {
-  CardElement, useElements, useStripe,
+  CardElement,
+  useStripe,
+  useElements,
 } from '@stripe/react-stripe-js';
-import CardSection from './CardSection';
+import { myPrivateAxios } from '../config/axios';
 
-export default function PaymentForm(props) {
+export default function CheckoutForm() {
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState('');
+  const [disabled, setDisabled] = useState(true);
+  const [clientSecret, setClientSecret] = useState('');
   const stripe = useStripe();
   const elements = useElements();
-  const handleSubmit = async (event) => {
-    event.preventDefault();
 
-    // handle payment request
-    if (!stripe || !elements) {
-      return;
-    }
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    myPrivateAxios({
+      method: 'POST',
+      url: 'transaction/create-payment-intent',
+    }).then((res) => {
+      console.log(res);
+      setClientSecret(res.data.clientSecret);
+    }).catch((err) => console.log(err));
+  }, []);
 
-    const card = elements.getElement(CardElement);
-    const result = await stripe.createToken(card);
-    if (result.error) {
-      console.log(result.error.message);
+  const cardStyle = {
+    style: {
+      base: {
+        color: '#32325d',
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#32325d',
+        },
+      },
+      invalid: {
+        fontFamily: 'Arial, sans-serif',
+        color: '#fa755a',
+        iconColor: '#fa755a',
+      },
+    },
+  };
+
+  const handleChange = async (event) => {
+    // Listen for changes in the CardElement
+    // and display any errors as the customer types their card details
+    setDisabled(event.empty);
+    setError(event.error ? event.error.message : '');
+  };
+
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
+    setProcessing(true);
+
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+      },
+    });
+
+    if (payload.error) {
+      setError(`Payment failed ${payload.error.message}`);
+      setProcessing(false);
     } else {
-      console.log(result.token);
-    // pass the token to your backend API
+      setError(null);
+      setProcessing(false);
+      setSucceeded(true);
     }
   };
 
   return (
-    <div>
-      <Box
-        component="form"
-        onSubmit={handleSubmit(stripe, elements)}
-        sx={{
-          p: 4,
-          width: '50%',
-          margin: 'auto',
-          border: '2px solid red',
-        }}
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <CardElement id="card-element" options={cardStyle} onChange={handleChange} />
+      <button
+        type="button"
+        disabled={processing || disabled || succeeded}
+        id="submit"
       >
-        <CardElement />
-        <button type="button" className="btn-pay">Buy Now</button>
-      </Box>
-      {/* <Button variant="outlined">Pay Now</Button> */}
-    </div>
+        <span id="button-text">
+          {processing ? (
+            <div className="spinner" id="spinner" />
+          ) : (
+            'Pay now'
+          )}
+        </span>
+      </button>
+      {/* Show any error that happens when processing the payment */}
+      {error && (
+        <div className="card-error" role="alert">
+          {error}
+        </div>
+      )}
+      {/* Show a success message upon completion */}
+      <p className={succeeded ? 'result-message' : 'result-message hidden'}>
+        Payment succeeded, see the result in your
+        <a
+          href="https://dashboard.stripe.com/test/payments"
+        >
+          {' '}
+          Stripe dashboard.
+        </a>
+        {' '}
+        Refresh the page to pay again.
+      </p>
+    </form>
   );
 }
