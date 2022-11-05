@@ -3,9 +3,10 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
-import { getCurrentUser } from '../helpers/AuthManager';
+import { getCurrentUser, getJwtToken } from '../helpers/AuthManager';
 
 function Layoutt({ contentData }) {
+  const navigate = useNavigate();
   console.log(contentData);
   const actionList = [
     [],
@@ -14,10 +15,11 @@ function Layoutt({ contentData }) {
     [{ name: 'Schedule', target: '/schedule' }],
     [{ name: 'Staffs', target: '/staffs' }, { name: 'Events', target: '/events' }, { name: 'Set Schedule', target: '/setSchedule' }, { name: 'Set Slots', target: '/setslots' }],
     [{ name: 'Venues', target: '/venue' }, { name: 'Events', target: '/events' }, { name: 'Staffs', target: '/staffs' }]];
-
-  const role = getCurrentUser().typeUserCode;
+  if (!getJwtToken()) {
+    navigate('/login');
+  }
+  const role = getCurrentUser()?.typeUserCode;
   console.log(role);
-  const navigate = useNavigate();
   return (
     <Grid
       container

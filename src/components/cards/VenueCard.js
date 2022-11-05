@@ -9,7 +9,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { CardActionArea, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function VenueCard({ venue }) {
+export default function VenueCard({ venue, handleDelete }) {
+  console.log(venue);
   const navigate = useNavigate();
   return (
     <Card sx={{ display: 'flex', mb: 2, height: 150 }}>
@@ -44,7 +45,7 @@ export default function VenueCard({ venue }) {
         p: 1,
       }}
       >
-        <IconButton><DeleteIcon /></IconButton>
+        <IconButton onClick={() => handleDelete(venue)}><DeleteIcon /></IconButton>
         <IconButton><EditIcon /></IconButton>
       </Box>
 

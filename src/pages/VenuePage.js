@@ -7,25 +7,34 @@ function VenuePage() {
   const [venueList, setVenueList] = useState([]);
 
   const getVenueList = async () => {
-    try {
-      await myPrivateAxios({
-        method: 'get',
-        url: '/venue/all',
-      }).then((res) => {
-        console.log(res.data);
-        setVenueList(res.data);
-      });
-    } catch (err) {
-      alert(err.response);
-    }
+    await myPrivateAxios({
+      method: 'get',
+      url: '/venue/all',
+    }).then((res) => {
+      console.log(res.data);
+      setVenueList(res.data);
+    }).catch((err) => alert(err.response));
   };
+
   useEffect(() => {
     getVenueList();
   }, []);
 
+  async function handleDelete(deleteVenue) {
+    await myPrivateAxios({
+      method: 'delete',
+      url: `/venue/${deleteVenue.venueId}`,
+    }).then((res) => {
+      console.log(res.data);
+      // eslint-disable-next-line no-shadow
+      setVenueList((venueList) => venueList.filter((venue) => venue !== deleteVenue));
+    }).catch((err) => console.log(err));
+  }
+
   return (
     <Layoutt contentData={
-      venueList.map((venue) => <VenueCard venue={venue} />)
+      // eslint-disable-next-line react/jsx-no-bind
+      venueList.map((venue) => <VenueCard venue={venue} handleDelete={handleDelete} />)
     }
     />
   );

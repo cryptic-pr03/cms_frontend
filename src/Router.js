@@ -14,6 +14,7 @@ import VenuePage from './pages/VenuePage';
 import ActionPage from './pages/ActionPage';
 import VenueDetailsPage from './pages/VenueDetailsPage';
 import StaffPage from './pages/StaffPage';
+import ProfilePage2 from './pages/ProfilePage2';
 
 function Routers() {
   return (
@@ -37,7 +38,7 @@ function Routers() {
       <Route exact path="/venue" element={<VenuePage />} />
       <Route exact path="/venue/:id" element={<VenueDetailsPage />} />
 
-      <Route exact path="/profile" element={<ProfilePage />} />
+      <Route exact path="/profile" element={<ProfilePage2 />} />
       <Route exact path="/actions" element={<ActionPage />} />
       <Route exact path="/staffs" element={<StaffPage />} />
 

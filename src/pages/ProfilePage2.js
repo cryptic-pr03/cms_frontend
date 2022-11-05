@@ -12,27 +12,9 @@ import { myPrivateAxios } from '../config/axios';
 import Layoutt from '../layouts/Layoutt';
 import CircularProgress from '@mui/material/CircularProgress';
 import ProfileCard from '../components/cards/ProfileCard';
+import ProfilePageAccordion from '../components/ProfilePageAccordion';
 
-function Cardd({ label, value }) {
-  return (
-    <Grid item xs={4}>
-      <Card sx={{ p: 0.1 }}>
-        <CardContent sx={{ p: 1, width: 500 }}>
-          <Typography sx={{ fontSize: 10 }} color="text.primary" gutterBottom>
-            {label}
-            {' '}
-            :
-          </Typography>
-          <Typography variant="body2">
-            {value}
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
-  );
-}
-
-function ProfilePage() {
+function ProfilePage2() {
   if (!getJwtToken()) {
     navigate('/login');
   }
@@ -58,51 +40,15 @@ function ProfilePage() {
   }, []);
 
 
-
   return (
     <Layoutt contentData={(
       <>
       {loading && <CircularProgress/>}
-      <div>
-        <Box sx={{ m: 5 }}>
-
-          <Typography
-            variant="h4"
-            sx={{ m: 3 }}
-          >
-            {' '}
-            Welcome
-            {' '}
-            {`${profile?.firstName} ${profile?.lastName} !` }
-
-          </Typography>
-
-          <Grid
-            container
-            spacing={2}
-            sx={{
-            }}
-          >
-            {cardList}
-          </Grid>
-
-          <Typography
-            variant="h5"
-            sx={{ m: 3 }}
-          >
-            {' '}
-            Logged in as role
-            {' '}
-            {`${getCurrentUser()?.typeUserCode}` }
-
-          </Typography>
-
-        </Box>
-      </div>
+      <ProfilePageAccordion profile={profile}/>
       </>
   )}
     />
   );
 }
 
-export default ProfilePage;
+export default ProfilePage2;
