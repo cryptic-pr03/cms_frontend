@@ -16,23 +16,17 @@ import myAxios from '../../config/axios';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 
-export default function AddVenueModal({ mode, venueProp }) {
-  const navigate = useNavigate();
+export default function AddVenueModal({ mode, venueProp, updateState }) {
+  console.dir(updateState);
   const [open, setOpen] = useState(false);
   const [loading, setloading] = useState(false);
 
-  const initialState = {name:null, location:null }
-
-  if (venueProp) console.log("edit", venueProp);
-
-  else console.log('add');
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    venueProp = { id: 0 }
   };
 
   const {
@@ -41,25 +35,23 @@ export default function AddVenueModal({ mode, venueProp }) {
     mode: 'onBlur',
   });
 
-  const submitAddVenue = async (data) => {
+  const handleOnSubmit = async (data) => {
     setloading(true);
     data = {
       ...data,
-      venueId: 0,
-      isFunctional: false,
+      venueId: venueProp?.venueId ?? 0,
     };
-
     console.log(data);
     await myAxios({
-      method: 'post',
+      method: (mode === "ADD" ? 'post' : 'put'),
       url: '/venue',
       data
     }).then((res) => {
-      console.log(res.data);
+      console.log("res", res.data);
       setOpen(false);
-      setloading(false);
-      windows.location.reload();
-    }).catch((err) => alert(err.response.data));
+      updateState(res.data);
+      // setloading(false);
+    }).catch((err) => console.log("error", err.response));
   }
 
 
@@ -82,7 +74,7 @@ export default function AddVenueModal({ mode, venueProp }) {
         <Grid container>
           <Box
             component="form"
-            onSubmit={handleSubmit(submitAddVenue)}
+            onSubmit={handleSubmit(handleOnSubmit)}
             noValidate
           >
             <DialogContent>
@@ -190,7 +182,11 @@ export default function AddVenueModal({ mode, venueProp }) {
                   id="silverSeats"
                   name="silverSeats"
                   type="number"
-                  disabled={mode === "EDIT"}
+                  inputProps={{
+                    readOnly: (mode == "EDIT"),
+                    className: "Mui-disabled"
+                  }}
+
                   defaultValue={venueProp?.silverSeats}
                   required
                   {...register('silverSeats', {
@@ -206,7 +202,10 @@ export default function AddVenueModal({ mode, venueProp }) {
                   name="goldSeats"
                   type="number"
                   defaultValue={venueProp?.goldSeats}
-                  disabled={mode === "EDIT"}
+                  inputProps={{
+                    readOnly: (mode == "EDIT"),
+                    className: "Mui-disabled"
+                  }}
                   required
                   {...register('goldSeats', {
                     required: 'Number of Gold Seats Required',
@@ -220,7 +219,10 @@ export default function AddVenueModal({ mode, venueProp }) {
                   id="platinumSeats"
                   name="platinumSeats"
                   type="number"
-                  disabled={mode === "EDIT"}
+                  inputProps={{
+                    readOnly: (mode == "EDIT"),
+                    className: "Mui-disabled"
+                  }}
                   defaultValue={venueProp?.platinumSeats}
                   required
                   {...register('platinumSeats', {

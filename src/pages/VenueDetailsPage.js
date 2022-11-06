@@ -5,27 +5,27 @@ import { getCurrentUser } from '../helpers/AuthManager';
 import Layoutt from '../layouts/Layoutt';
 
 function VenueDetailsPage() {
-  const params = useParams();
-  const user = getCurrentUser();
-  return (
-    <Layoutt contentData={(
-      <>
+    const params = useParams();
+    const user = getCurrentUser();
+    return (
+        <Layoutt contentData={(
+            <>
         Welcome to
-        {' '}
-        {params.id}
+                {' '}
+                {params.id}
 
-        {user.typeUserCode === 5
+                {user.typeUserCode === 5
         && (
-        <>
-          <CheckoutDialogue />
+            <>
+                <CheckoutDialogue />
           OK
-        </>
+            </>
         )}
-      </>
+            </>
 
-)}
-    />
-  );
+        )}
+        />
+    );
 }
 
 export default VenueDetailsPage;

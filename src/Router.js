@@ -16,6 +16,7 @@ import StaffPage from './pages/StaffPage';
 import StaffDetailsPage from './pages/StaffDetailsPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import LandingPage from './pages/LandingPage';
+import Test from './pages/Test';
 
 function Routers() {
   return (
@@ -49,6 +50,7 @@ function Routers() {
       <Route exact path="/actions" element={<ActionPage />} />
 
 
+      <Route path="/test" element={<Test />} />
       <Route path="/" element={<LandingPage />} />
       <Route path="/*" element={<NotFoundPage />} />
 

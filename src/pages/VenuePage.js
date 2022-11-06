@@ -19,7 +19,6 @@ function VenuePage() {
       method: 'get',
       url: '/venue/all',
     }).then((res) => {
-      console.log(res.data);
       setVenueList(res.data);
     }).catch((err) => console(err.response));
   };
@@ -28,14 +27,27 @@ function VenuePage() {
     getVenueList();
   }, []);
 
-  async function handleDelete(deleteVenue) {
-    await myPrivateAxios({
-      method: 'delete',
-      url: `/venue/${deleteVenue.venueId}`,
-    }).then((res) => {
-      console.log(res.data);
-      setVenueList((venueList) => venueList.filter((venue) => venue !== deleteVenue));
-    }).catch((err) => console.log(err));
+
+
+  function updateStateOnDelete(deletedVenue) {
+    setVenueList((venueList) => venueList.filter((venue) => venue !== deletedVenue));
+  }
+
+  function updateStateOnAdd(addedVenue) {
+    console.log("in", venueList.size());
+    setVenueList((venueList) => {
+      venueList.push(addedVenue);
+      return venueList;
+    });
+    console.log("out", venueList.size());
+  }
+
+  function updateStateOnEdit(editedVenue) {
+    setVenueList((venueList) => venueList.filter((venue) => venue.venueId !== editedVenue.venueId));
+    setVenueList((venueList) => {
+      venueList.push(editedVenue);
+      return venueList;
+    });
   }
 
   return (
@@ -50,10 +62,10 @@ function VenuePage() {
             {venueList.length === 0 && <> NO VENUES TO DISPLAY</>}
             {venueList.length !== 0 && <> VENUES</>}
           </Typography>
-          {user.typeUserCode === 5 && < AddVenueModal mode={"ADD"} venueProp={{ id: 0 }} />}
+          {user.typeUserCode === 5 && < AddVenueModal mode={"ADD"} updateState={updateStateOnAdd} />}
         </Box>
 
-        {venueList.map((venue) => <VenueCard venue={venue} handleDelete={handleDelete} />)}
+        {venueList.map((venue) => <VenueCard venue={venue} updateStateOnDelete={updateStateOnDelete} updateStateOnEdit={updateStateOnEdit} />)}
 
       </>
     }

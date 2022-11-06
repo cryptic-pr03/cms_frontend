@@ -6,35 +6,35 @@ import TicketCard from '../components/cards/TicketCard';
 import Layoutt from '../layouts/Layoutt';
 
 function BuyTicketsPage() {
-  const param = useParams();
-  const [seats, setSeats] = useState([]);
-  console.log(param);
+    const param = useParams();
+    const [seats, setSeats] = useState([]);
+    console.log(param);
 
-  async function getSeatsByEvent() {
-    try {
-      await myAxios({ method: 'GET', url: `/eventSeat/${param.eventId}` }).then((res) => {
-        console.log(res.data);
-        for (let i = 0; i < res.data.length; i += 1) {
-          res.data[i] = { id: i + 1, ...res.data[i] };
+    async function getSeatsByEvent() {
+        try {
+            await myAxios({ method: 'GET', url: `/eventSeat/${param.eventId}` }).then((res) => {
+                console.log(res.data);
+                for (let i = 0; i < res.data.length; i += 1) {
+                    res.data[i] = { id: i + 1, ...res.data[i] };
+                }
+                setSeats(res.data);
+            });
+            console.log('success');
+        } catch (err) {
+            console.log('error');
+            console.log(err.response);
         }
-        setSeats(res.data);
-      });
-      console.log('success');
-    } catch (err) {
-      console.log('error');
-      console.log(err.response);
     }
-  }
 
-  useEffect(() => {
-    getSeatsByEvent();
-  }, []);
-  return (
-    <Layoutt contentData={
-      <TicketCard tCard={seats} />
-    }
-    />
-  );
+    useEffect(() => {
+        getSeatsByEvent();
+    }, []);
+    return (
+        <Layoutt contentData={
+            <TicketCard tCard={seats} />
+        }
+        />
+    );
 }
 
 export default BuyTicketsPage;

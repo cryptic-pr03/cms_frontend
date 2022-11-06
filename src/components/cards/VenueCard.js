@@ -9,8 +9,25 @@ import EditIcon from '@mui/icons-material/Edit';
 import { CardActionArea, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AddVenueModal from '../modals/AddVenueModal';
+import { myPrivateAxios } from '../../config/axios';
 
-export default function VenueCard({ venue, handleDelete }) {
+
+
+
+export default function VenueCard({ venue, updateStateOnDelete, updateStateOnEdit}) {
+
+
+  async function handleDelete(deleteVenue) {
+    await myPrivateAxios({
+      method: 'delete',
+      url: `/venue/${deleteVenue.venueId}`,
+    }).then((res) => {
+      console.log(res.data);
+      updateStateOnDelete(deleteVenue);
+      
+    }).catch((err) => console.log(err));
+  }
+
   console.log(venue);
   const navigate = useNavigate();
   return (
@@ -47,7 +64,7 @@ export default function VenueCard({ venue, handleDelete }) {
       }}
       >
         <IconButton onClick={() => handleDelete(venue)}><DeleteIcon /></IconButton>
-        < AddVenueModal mode={"EDIT"} venueProp={venue} />
+        < AddVenueModal mode={"EDIT"} venueProp={venue}  updateState={updateStateOnEdit}/>
       </Box>
 
     </Card>

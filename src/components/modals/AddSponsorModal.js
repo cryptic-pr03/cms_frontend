@@ -14,94 +14,94 @@ import { useNavigate } from 'react-router-dom';
 import myAxios from '../../config/axios';
 
 export default function AddVenue() {
-  const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
+    const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
-  const {
-    register, watch, handleSubmit, formState: { errors }, control,
-  } = useForm({
-    mode: 'onBlur',
-  });
+    const {
+        register, watch, handleSubmit, formState: { errors }, control,
+    } = useForm({
+        mode: 'onBlur',
+    });
 
-  const submitAddSponsor = async (data) => {
-    console.log(data);
-    try {
-      await myAxios({
-        method: 'post',
-        url: '/sponsor',
-        data: {
-          ...data,
-          eventId: 1,
-          // eslint-disable-next-line no-unsafe-optional-chaining
-        },
-      }).then((res) => {
-        console.log(res);
-        alert(res.data);
-        navigate('/events');
-      });
-    } catch (err) {
-      alert(err.response.data);
-    }
-  };
+    const submitAddSponsor = async (data) => {
+        console.log(data);
+        try {
+            await myAxios({
+                method: 'post',
+                url: '/sponsor',
+                data: {
+                    ...data,
+                    eventId: 1,
+                    // eslint-disable-next-line no-unsafe-optional-chaining
+                },
+            }).then((res) => {
+                console.log(res);
+                alert(res.data);
+                navigate('/events');
+            });
+        } catch (err) {
+            alert(err.response.data);
+        }
+    };
 
-  return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+    return (
+        <div>
+            <Button variant="outlined" onClick={handleClickOpen}>
         Add Sponsor
-      </Button>
+            </Button>
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle textAlign="center">Add Sponsor</DialogTitle>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(submitAddSponsor)}
-          noValidate
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle textAlign="center">Add Sponsor</DialogTitle>
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit(submitAddSponsor)}
+                    noValidate
 
-        >
-          <DialogContent>
-            <DialogContentText textAlign="center">
+                >
+                    <DialogContent>
+                        <DialogContentText textAlign="center">
               Add Sponsor
-            </DialogContentText>
-            <Box sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-around',
-              // flexWrap: 'wrap',
-              // p: 5,
-              // m: 3,
-            }}
-            >
-              <TextField
-                autoFocus
-                margin="normal"
-                id="standard-adornment-amount"
-                label="Sponsor Name"
-                name="sponsorName"
-                required
-                {...register('sponsorName', {
-                  required: 'Sponsor Name Required',
-                })}
-                error={Boolean(errors.price)}
-                helperText={errors.price?.message}
-              />
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button type="submit">Submit</Button>
-            <Button onClick={handleClose}>Cancel</Button>
-          </DialogActions>
-        </Box>
-      </Dialog>
+                        </DialogContentText>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
+                            justifyContent: 'space-around',
+                            // flexWrap: 'wrap',
+                            // p: 5,
+                            // m: 3,
+                        }}
+                        >
+                            <TextField
+                                autoFocus
+                                margin="normal"
+                                id="standard-adornment-amount"
+                                label="Sponsor Name"
+                                name="sponsorName"
+                                required
+                                {...register('sponsorName', {
+                                    required: 'Sponsor Name Required',
+                                })}
+                                error={Boolean(errors.price)}
+                                helperText={errors.price?.message}
+                            />
+                        </Box>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button type="submit">Submit</Button>
+                        <Button onClick={handleClose}>Cancel</Button>
+                    </DialogActions>
+                </Box>
+            </Dialog>
 
-    </div>
-  );
+        </div>
+    );
 }
