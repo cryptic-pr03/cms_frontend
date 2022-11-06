@@ -12,111 +12,111 @@ import { useNavigate } from 'react-router-dom';
 import { myPrivateAxios } from '../../config/axios';
 
 export default function FormDialog() {
-    const [succeeded, setSucceeded] = useState(false);
-    const [error, setError] = useState(null);
-    const [processing, setProcessing] = useState('');
-    const [disabled, setDisabled] = useState(true);
-    const [clientSecret, setClientSecret] = useState('');
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState('');
+  const [disabled, setDisabled] = useState(true);
+  const [clientSecret, setClientSecret] = useState('');
 
-    const [open, setOpen] = React.useState(false);
-    const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
 
-    async function createIntent() {
-        await myPrivateAxios({
-            method: 'POST',
-            url: 'transaction/create-payment-intent',
-            data: {
-                amount: 1000,
-                transactionType: 'Card',
+  async function createIntent() {
+    await myPrivateAxios({
+      method: 'POST',
+      url: 'transaction/create-payment-intent',
+      data: {
+        amount: 1000,
+        transactionType: 'Card',
 
-            },
-        }).then((res) => {
-            console.log(res);
-            setClientSecret(res.data);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
+      },
+    }).then((res) => {
+      console.log(res);
+      setClientSecret(res.data);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
 
-    const handleClickOpen = () => {
-        setOpen(true);
-        createIntent();
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+    createIntent();
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const stripe = useStripe();
-    const elements = useElements();
+  const stripe = useStripe();
+  const elements = useElements();
 
-    const handleChange = async (event) => {
+  const handleChange = async (event) => {
     // Listen for changes in the CardElement
     // and display any errors as the customer types their card details
-        setDisabled(event.empty);
-        setError(event.error ? event.error.message : '');
-    };
+    setDisabled(event.empty);
+    setError(event.error ? event.error.message : '');
+  };
 
-    const handleSubmit = async (ev) => {
-        ev.preventDefault();
-        setProcessing(true);
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
+    setProcessing(true);
 
-        const payload = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: elements.getElement(CardElement),
-            },
-        });
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+      },
+    });
 
-        if (payload.error) {
-            setError(`Payment failed ${payload.error.message}`);
-            setProcessing(false);
-        } else {
-            setError(null);
-            setProcessing(false);
-            setSucceeded(true);
-            navigate('/profile');
-        }
-    };
+    if (payload.error) {
+      setError(`Payment failed ${payload.error.message}`);
+      setProcessing(false);
+    } else {
+      setError(null);
+      setProcessing(false);
+      setSucceeded(true);
+      navigate('/profile');
+    }
+  };
 
-    return (
-        <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
+  return (
+    <div>
+      <Button variant="outlined" onClick={handleClickOpen}>
         CONTINUE
-            </Button>
+      </Button>
 
-            <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose}>
 
-                <DialogTitle>MAKE PAYMENT</DialogTitle>
-                <Box
-                    id="making"
-                    component="form"
-                    sx={{
-                        width: '500px',
+        <DialogTitle>MAKE PAYMENT</DialogTitle>
+        <Box
+          id="making"
+          component="form"
+          sx={{
+            width: '500px',
 
-                    }}
-                >
-                    <DialogContent>
-                        <CardElement onChange={handleChange} />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
-                            disabled={processing}
-                            onClick={handleClose}
-                        >
+          }}
+        >
+          <DialogContent>
+            <CardElement onChange={handleChange} />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              disabled={processing}
+              onClick={handleClose}
+            >
               Cancel
-                        </Button>
-                        <Button
-                            onClick={handleSubmit}
-                            disabled={processing || disabled || succeeded}
-                        >
-                            {/* {processing && <CircularProgress />} */}
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              disabled={processing || disabled || succeeded}
+            >
+              {/* {processing && <CircularProgress />} */}
               Pay
-                        </Button>
-                    </DialogActions>
-                </Box>
-                {error && alert(error)}
-            </Dialog>
+            </Button>
+          </DialogActions>
+        </Box>
+        {error && alert(error)}
+      </Dialog>
 
-        </div>
-    );
+    </div>
+  );
 }

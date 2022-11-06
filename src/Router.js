@@ -10,13 +10,13 @@ import RegisterPage from './pages/RegisterPage';
 import MakePayment from './pages/MakePayment';
 import LogoutPage from './pages/LogoutPage';
 import VenuePage from './pages/VenuePage';
-import ActionPage from './pages/ActionPage';
 import VenueDetailsPage from './pages/VenueDetailsPage';
 import StaffPage from './pages/StaffPage';
 import StaffDetailsPage from './pages/StaffDetailsPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import LandingPage from './pages/LandingPage';
 import Test from './pages/Test';
+import DashboardPage from './pages/DashboardPage';
 
 function Routers() {
   return (
@@ -47,7 +47,7 @@ function Routers() {
       <Route exact path="/venue/:id" element={<VenueDetailsPage />} />
 
       <Route exact path="/profile" element={<ProfilePage />} />
-      <Route exact path="/actions" element={<ActionPage />} />
+      <Route exact path="/dashboard" element={<DashboardPage />} />
 
 
       <Route path="/test" element={<Test />} />

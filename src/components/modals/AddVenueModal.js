@@ -1,18 +1,18 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Box from '@mui/material/Box';
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Box,
+  Grid, Backdrop, CircularProgress, Typography
+} from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react';
-import { Backdrop, CircularProgress, Typography } from '@mui/material';
-import myAxios from '../../config/axios';
+import myPrivateAxios from '../../config/axios';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -42,7 +42,7 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
       venueId: venueProp?.venueId ?? 0,
     };
     console.log(data);
-    await myAxios({
+    await myPrivateAxios({
       method: (mode === "ADD" ? 'post' : 'put'),
       url: '/venue',
       data
@@ -50,7 +50,6 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
       console.log("res", res.data);
       setOpen(false);
       updateState(res.data);
-      // setloading(false);
     }).catch((err) => console.log("error", err.response));
   }
 
@@ -79,7 +78,7 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
           >
             <DialogContent>
               <DialogContentText textAlign="center">
-                Create Venue
+                                Create Venue
               </DialogContentText>
               <Box sx={{
                 display: 'flex',
@@ -96,30 +95,10 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
                   label="Venue Name"
                   defaultValue={venueProp?.name}
                   required
-                  {...register('name', {
-                    required: 'Name Required',
-                  })}
+                  {...register('name', { required: 'Name Required', })}
                   error={Boolean(errors.name)}
                   helperText={errors.name?.message}
                 />
-
-                {/* <TextField
-                  margin="normal"
-                  label="Capacity"
-                  id="capacity"
-                  name="capacity"
-                  required
-                  {...register('capacity', {
-                    required: 'Capacity Required',
-                    pattern: {
-                      value: '^[1-9][0-9]*$',
-                      message: 'Invalid Capacity',
-                    },
-                  })}
-                  error={Boolean(errors.capacity)}
-                  helperText={errors.capacity?.message}
-                /> */}
-
                 <TextField
                   margin="normal"
                   label="City"
@@ -127,9 +106,7 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
                   id="city"
                   required
                   defaultValue={venueProp?.city}
-                  {...register('city', {
-                    required: 'City Required',
-                  })}
+                  {...register('city', { required: 'City Required', })}
                   error={Boolean(errors.city)}
                   helperText={errors.city?.message}
                 />
@@ -140,9 +117,7 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
                   id="landmark"
                   required
                   defaultValue={venueProp?.landmark}
-                  {...register('landmark', {
-                    required: 'Landmark Required',
-                  })}
+                  {...register('landmark', { required: 'Landmark Required', })}
                   error={Boolean(errors.landmark)}
                   helperText={errors.landmark?.message}
                 />
@@ -153,45 +128,22 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
                   id="state"
                   required
                   defaultValue={venueProp?.state}
-                  {...register('state', {
-                    required: 'State Required',
-                  })}
+                  {...register('state', { required: 'State Required', })}
                   error={Boolean(errors.state)}
                   helperText={errors.state?.message}
                 />
-
-                {/* <TextField
-                  margin="normal"
-                  label="Pics Seat Matrix URL"
-                  name="picSeatMatrixUrl"
-                  namid="picSeatMatrixUrl"
-                  required
-                  {...register('picSeatMatrixUrl', {
-                    required: 'Pics Seat Matrix URL',
-                  })}
-                  error={Boolean(errors.picSeatMatrixUrl)}
-                  helperText={errors.picSeatMatrixUrl?.message}
-                /> */}
                 {/* <Box width="100%"> */}
-                <Typography width="100%" sx={{ textAlign: 'center', }}>
-                  SEAT MATRIX DESCRIPTION
-                </Typography>
+                <Typography width="100%" sx={{ textAlign: 'center', }}> SEAT MATRIX DESCRIPTION </Typography>
                 <TextField
                   margin="normal"
                   label="Number of Silver Seats"
                   id="silverSeats"
                   name="silverSeats"
                   type="number"
-                  inputProps={{
-                    readOnly: (mode == "EDIT"),
-                    className: "Mui-disabled"
-                  }}
-
+                  inputProps={(mode == "EDIT") ? { readOnly: true, className: "Mui-disabled" } : {}}
                   defaultValue={venueProp?.silverSeats}
                   required
-                  {...register('silverSeats', {
-                    required: 'Number of Silver Seats Required',
-                  })}
+                  {...register('silverSeats', { required: 'Number of Silver Seats Required', })}
                   error={Boolean(errors.silverSeats)}
                   helperText={errors.silverSeats?.message}
                 />
@@ -202,14 +154,9 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
                   name="goldSeats"
                   type="number"
                   defaultValue={venueProp?.goldSeats}
-                  inputProps={{
-                    readOnly: (mode == "EDIT"),
-                    className: "Mui-disabled"
-                  }}
+                  inputProps={(mode == "EDIT") ? { readOnly: true, className: "Mui-disabled" } : {}}
                   required
-                  {...register('goldSeats', {
-                    required: 'Number of Gold Seats Required',
-                  })}
+                  {...register('goldSeats', { required: 'Number of Gold Seats Required', })}
                   error={Boolean(errors.goldSeats)}
                   helperText={errors.goldSeats?.message}
                 />
@@ -219,15 +166,10 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
                   id="platinumSeats"
                   name="platinumSeats"
                   type="number"
-                  inputProps={{
-                    readOnly: (mode == "EDIT"),
-                    className: "Mui-disabled"
-                  }}
+                  inputProps={(mode == "EDIT") ? { readOnly: true, className: "Mui-disabled" } : {}}
                   defaultValue={venueProp?.platinumSeats}
                   required
-                  {...register('platinumSeats', {
-                    required: 'Number of Platinum Seats Required',
-                  })}
+                  {...register('platinumSeats', { required: 'Number of Platinum Seats Required', })}
                   error={Boolean(errors.platinumSeats)}
                   helperText={errors.platinumSeats?.message}
                 />

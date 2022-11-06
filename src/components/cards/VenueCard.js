@@ -14,7 +14,7 @@ import { myPrivateAxios } from '../../config/axios';
 
 
 
-export default function VenueCard({ venue, updateStateOnDelete, updateStateOnEdit}) {
+export default function VenueCard({ venue, updateStateOnDelete, updateStateOnEdit }) {
 
 
   async function handleDelete(deleteVenue) {
@@ -24,7 +24,7 @@ export default function VenueCard({ venue, updateStateOnDelete, updateStateOnEdi
     }).then((res) => {
       console.log(res.data);
       updateStateOnDelete(deleteVenue);
-      
+
     }).catch((err) => console.log(err));
   }
 
@@ -64,7 +64,7 @@ export default function VenueCard({ venue, updateStateOnDelete, updateStateOnEdi
       }}
       >
         <IconButton onClick={() => handleDelete(venue)}><DeleteIcon /></IconButton>
-        < AddVenueModal mode={"EDIT"} venueProp={venue}  updateState={updateStateOnEdit}/>
+        < AddVenueModal mode={"EDIT"} venueProp={venue} updateState={updateStateOnEdit} />
       </Box>
 
     </Card>

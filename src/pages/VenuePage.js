@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import VenueCard from '../components/cards/VenueCard';
 import AddVenueModal from '../components/modals/AddVenueModal';
 import { myPrivateAxios } from '../config/axios';
@@ -7,6 +8,7 @@ import { getCurrentUser, getJwtToken } from '../helpers/AuthManager';
 import Layoutt from '../layouts/Layoutt';
 
 function VenuePage() {
+  const navigate = useNavigate();
   const [venueList, setVenueList] = useState([]);
   console.log(getJwtToken());
   if (!getJwtToken()) {
@@ -65,7 +67,7 @@ function VenuePage() {
           {user.typeUserCode === 5 && < AddVenueModal mode={"ADD"} updateState={updateStateOnAdd} />}
         </Box>
 
-        {venueList.map((venue) => <VenueCard venue={venue} updateStateOnDelete={updateStateOnDelete} updateStateOnEdit={updateStateOnEdit} />)}
+        {venueList.map((venue) => <VenueCard venue={venue} key={venue.venueId} updateStateOnDelete={updateStateOnDelete} updateStateOnEdit={updateStateOnEdit} />)}
 
       </>
     }
