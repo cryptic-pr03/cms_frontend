@@ -18,7 +18,7 @@ import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react';
 import myAxios from '../../config/axios';
 
-export default function AddEvent({ prop }) {
+export default function AddEventModal({ prop }) {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [eventObj, setEventObj] = useState([]);

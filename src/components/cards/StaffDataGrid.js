@@ -2,6 +2,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import { useState } from 'react';
+import AddStaffModal from '../modals/AddStaffModal';
 
 export default function StaffDataGrid({ staff }) {
   const navigate = useNavigate();
@@ -45,6 +46,9 @@ export default function StaffDataGrid({ staff }) {
         Final clicked field = ${finalClickInfo.field}, 
         Final clicked value = ${finalClickInfo.value}`}
       {!finalClickInfo && 'Click on a column'}
+      <AddStaffModal mode={"ADD"} />
+
+
     </div>
 
   );

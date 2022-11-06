@@ -23,14 +23,14 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import myAxios from '../../config/axios';
 
-export default function AddStaff({ prop }) {
+export default function AddStaffModal({ mode,staffProp }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [staffObj, setStaffObj] = useState([]);
 
   console.log('staff');
-  console.log(prop);
+  console.log(staffProp);
   const getCurrentDate = (separator = '-') => {
     const newDate = new Date();
     const date = newDate.getDate();
@@ -81,7 +81,7 @@ export default function AddStaff({ prop }) {
 
   const getStaff = async () => {
     try {
-      await myAxios({ method: 'GET', url: `/staff/id/${prop}` }).then((res) => {
+      await myAxios({ method: 'GET', url: `/staff/id/${staffProp}` }).then((res) => {
         console.log('getStaff');
         console.log(res.data);
         setStaffObj(res.data);
@@ -100,7 +100,7 @@ export default function AddStaff({ prop }) {
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Add Staff
+        {mode}
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
@@ -133,15 +133,15 @@ export default function AddStaff({ prop }) {
                     autoFocus
                     fullWidth
                     margin="normal"
-                    id="standard-adornment-amount"
+                    id="firstname"
                     label="First Name"
                     name="firstname"
                     required
                     {...register('firstname', {
                       required: 'First Name Required',
                     })}
-                    error={Boolean(errors.price)}
-                    helperText={errors.price?.message}
+                    error={Boolean(errors.firstname)}
+                    helperText={errors.firstname?.message}
                   />
                 </Grid>
 
@@ -150,15 +150,15 @@ export default function AddStaff({ prop }) {
                     defaultValue={staffObj ? staffObj.lastName : ''}
                     fullWidth
                     margin="normal"
-                    id="standard-adornment-amount"
+                    id="lastname"
                     label="Last Name"
                     name="lastname"
                     required
                     {...register('lastname', {
                       required: 'Last Name Required',
                     })}
-                    error={Boolean(errors.price)}
-                    helperText={errors.price?.message}
+                    error={Boolean(errors.lastname)}
+                    helperText={errors.lastname?.message}
                   />
                 </Grid>
 
@@ -220,8 +220,8 @@ export default function AddStaff({ prop }) {
                         message: 'Invalid Salary',
                       },
                     })}
-                    error={Boolean(errors.contactNo)}
-                    helperText={errors.contactNo?.message}
+                    error={Boolean(errors.salary)}
+                    helperText={errors.salary?.message}
                   />
                 </Grid>
 
@@ -231,9 +231,11 @@ export default function AddStaff({ prop }) {
                     fullWidth
                     select
                     required
+                    id="gender"
                     label="Gender"
+                    name="gender"
                     margin="normal"
-                    inputProps={register('gender', {
+                    inputstaffProps={register('gender', {
                       required: 'Please enter gender.',
                     })}
                     error={errors.gender}
@@ -247,6 +249,7 @@ export default function AddStaff({ prop }) {
 
                 <Grid item xs={5}>
                   <Controller
+                    id="DOB"
                     name="DOB"
                     control={control}
                     render={({ field: { onChange, ...restField } }) => (
@@ -263,6 +266,8 @@ export default function AddStaff({ prop }) {
                                 margin="normal"
                                 fullWidth
                                 required
+                                error={errors.DOB}
+                                helperText={errors.DOB?.message}
                                 {...params}
                               />
                             )}
@@ -279,15 +284,15 @@ export default function AddStaff({ prop }) {
                     defaultValue={staffObj ? staffObj.groupNumber : ''}
                     fullWidth
                     margin="normal"
-                    id="standard-adornment-amount"
-                    label="groupNumber"
-                    name="Group Number"
+                    id="groupNumber"
+                    name="groupNumber"
+                    label="Group Number"
                     required
                     {...register('groupNumber', {
                       required: 'Group Number Required',
                     })}
-                    error={Boolean(errors.price)}
-                    helperText={errors.price?.message}
+                    error={Boolean(errors.groupNumber)}
+                    helperText={errors.groupNumber?.message}
                   />
                 </Grid>
 
@@ -296,15 +301,15 @@ export default function AddStaff({ prop }) {
                     defaultValue={staffObj ? staffObj.accountNo : ''}
                     fullWidth
                     margin="normal"
-                    id="standard-adornment-amount"
+                    id="accountNo"
                     label="Account Number"
                     name="accountNo"
                     required
                     {...register('accountNo', {
                       required: 'Account Number Required',
                     })}
-                    error={Boolean(errors.price)}
-                    helperText={errors.price?.message}
+                    error={Boolean(errors.accountNo)}
+                    helperText={errors.accountNo?.message}
                   />
                 </Grid>
 
@@ -313,15 +318,15 @@ export default function AddStaff({ prop }) {
                     defaultValue={staffObj ? staffObj.ifsccode : ''}
                     fullWidth
                     margin="normal"
-                    id="standard-adornment-amount"
+                    id="IFSCCode"
                     label="IFSC Code"
                     name="IFSCCode"
                     required
                     {...register('IfscCode', {
                       required: 'IFSC Code Required',
                     })}
-                    error={Boolean(errors.price)}
-                    helperText={errors.price?.message}
+                    error={Boolean(errors.IFSCCode)}
+                    helperText={errors.IFSCCode?.message}
                   />
                 </Grid>
 

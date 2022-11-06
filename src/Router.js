@@ -15,6 +15,7 @@ import VenueDetailsPage from './pages/VenueDetailsPage';
 import StaffPage from './pages/StaffPage';
 import StaffDetailsPage from './pages/StaffDetailsPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
+import LandingPage from './pages/LandingPage';
 
 function Routers() {
   return (
@@ -27,11 +28,12 @@ function Routers() {
       <Route exact path="/register" element={<RegisterPage />} />
       {/* EVENTS PAGE */}
       <Route exact path="/events" element={<EventsPage />} />
-      <Route exact path="/events/:eventId" element={<EventDetailsPage />} />
+      <Route exact path="/event/:eventId" element={<EventDetailsPage />} />
       <Route exact path="/buytickets/:eventId" element={<BuyTicketsPage />} />
       <Route exact path="/makePayment/:eventId" element={<MakePayment />} />
 
       {/* STAFF PAGE */}
+      <Route exact path="/staffs" element={<StaffPage />} />
       <Route exact path="/staff/:venueId" element={<StaffPage />} />
       <Route exact path="/staffDetails/:staffId" element={<StaffDetailsPage />} />
       <Route exact path="/unauth" element={<UnauthorizedPage />} />
@@ -40,13 +42,14 @@ function Routers() {
       <Route exact path="/slots/:slotId" element={<EventDetailsPage />} />
       <Route exact path="/makePayment/:slotId" element={<MakePayment />} />
 
-      <Route exact path="/venue" element={<VenuePage />} />
+      <Route exact path="/venues" element={<VenuePage />} />
       <Route exact path="/venue/:id" element={<VenueDetailsPage />} />
 
       <Route exact path="/profile" element={<ProfilePage />} />
       <Route exact path="/actions" element={<ActionPage />} />
-      <Route exact path="/staffs" element={<StaffPage />} />
 
+
+      <Route path="/" element={<LandingPage />} />
       <Route path="/*" element={<NotFoundPage />} />
 
     </Routes>

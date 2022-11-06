@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -17,17 +16,17 @@ import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '../helpers/AuthManager';
 
 function Navbar() {
-  const publicPages = ['Events', 'Help', 'About Us'];
-  const loggedInPages = ['My Bookings'];
-  const loggedOutPages = [];
+  const loggedInPages = ['DashBoard'];
+  const loggedOutPages = ['Sign In', 'Register'];
 
   const settingsLoggedIn = ['Profile', 'Logout'];
-  const settingsLoggedOut = ['SignIn', 'SignUp'];
+  // const settingsLoggedOut = ['SignIn', 'SignUp'];
 
   const currentUser = getCurrentUser();
   console.log(currentUser);
-  console.log(publicPages);
-  console.log(loggedInPages);
+  // console.log(currentUser.typeUserCode);
+  // console.log(publicPages);
+  // console.log(loggedInPages);
 
   const navigate = useNavigate();
 
@@ -50,15 +49,18 @@ function Navbar() {
   };
 
   const handleCloseUserMenu = (setting) => {
-    if (setting === 'SignIn') navigate('/login');
-    else if (setting === 'SignUp')navigate('/register');
+    if (setting === 'Sign In')navigate('/login');
     else if (setting === 'Logout')navigate('/logout');
     else if (setting === 'profile')navigate('/profile');
+    else if (setting === 'Register')navigate('/register');
+
     setAnchorElUser(null);
   };
 
+  // console.log(currentUser.key);
+
   return (
-    <>
+    <div>
       {/* <getCurrentUser /> */}
       <AppBar position="static" style={{ background: '#2E3B55' }}>
         <Container maxWidth="xl">
@@ -111,18 +113,7 @@ function Navbar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-
-                {publicPages.map((page) => (
-                  <MenuItem key={page} onClick={() => { handleCloseNavMenu(page); }}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
                 {currentUser && loggedInPages.map((page) => (
-                  <MenuItem key={page} onClick={() => { handleCloseNavMenu(page); }}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
-                {currentUser === null && loggedOutPages.map((page) => (
                   <MenuItem key={page} onClick={() => { handleCloseNavMenu(page); }}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
@@ -148,19 +139,7 @@ function Navbar() {
             >
               CMS
             </Typography>
-            <MenuItem key={0} onClick={() => { navigate('/actions'); }}>
-              <Typography textAlign="center">Actions</Typography>
-            </MenuItem>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {publicPages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={() => { handleCloseNavMenu(page); }}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
               {currentUser && loggedInPages.map((page) => (
                 <Button
                   key={page}
@@ -170,17 +149,9 @@ function Navbar() {
                   {page}
                 </Button>
               ))}
-              {currentUser === null && loggedOutPages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
             </Box>
 
+            {currentUser && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -208,18 +179,27 @@ function Navbar() {
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
-
-                {currentUser === null && settingsLoggedOut.map((setting) => (
-                  <MenuItem key={setting} onClick={() => { handleCloseUserMenu(setting); }}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
               </Menu>
             </Box>
+            )}
+
+            {currentUser === null && (
+            <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+              {loggedOutPages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={() => { handleCloseUserMenu(page); }}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              )) }
+            </Box>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
-    </>
+    </div>
   );
 }
 export default Navbar;

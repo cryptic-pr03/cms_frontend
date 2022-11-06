@@ -6,12 +6,9 @@ import { getCurrentUser, getJwtToken, setJwtToken } from '../helpers/AuthManager
 
 function LoginPage() {
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log(getJwtToken());
-    if (getJwtToken()) {
-      navigate('/profile');
-    }
-  }, []);
+  if (getJwtToken()) {
+    navigate('/profile');
+  }
 
   const addRole = async (user, code) => {
     await myPrivateAxios({
@@ -41,7 +38,6 @@ function LoginPage() {
         setJwtToken(res.data.token);
         const user = getCurrentUser();
         if (!res.data.isPresent) {
-          // eslint-disable-next-line no-restricted-globals
           if (confirm('Account not created for role! \n Create??')) {
             await addRole(user, parseInt(data.typeUserCode, 10));
           } else {

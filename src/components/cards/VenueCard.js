@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import { CardActionArea, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import AddVenueModal from '../modals/AddVenueModal';
 
 export default function VenueCard({ venue, handleDelete }) {
   console.log(venue);
@@ -46,7 +47,7 @@ export default function VenueCard({ venue, handleDelete }) {
       }}
       >
         <IconButton onClick={() => handleDelete(venue)}><DeleteIcon /></IconButton>
-        <IconButton><EditIcon /></IconButton>
+        < AddVenueModal mode={"EDIT"} venueProp={venue} />
       </Box>
 
     </Card>

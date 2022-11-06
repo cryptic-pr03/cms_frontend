@@ -7,19 +7,19 @@ import { getCurrentUser, getJwtToken } from '../helpers/AuthManager';
 
 function Layoutt({ contentData }) {
   const navigate = useNavigate();
-  console.log(contentData);
+  // console.log(contentData);
   const actionList = [
     [],
     [{ name: 'Events', target: '/events' }, { name: 'MyBookings', target: '/myBookings' }],
     [],
     [{ name: 'Schedule', target: '/schedule' }],
-    [{ name: 'Staffs', target: '/staffs' }, { name: 'Events', target: '/events' }, { name: 'Set Schedule', target: '/setSchedule' }, { name: 'Set Slots', target: '/setslots' }],
-    [{ name: 'Venues', target: '/venue' }, { name: 'Events', target: '/events' }, { name: 'Staffs', target: '/staffs' }]];
+    [{ name: 'Staff', target: '/staffs' }, { name: 'Events', target: '/events' }, { name: 'Set Schedule', target: '/setSchedule' }, { name: 'Set Slots', target: '/setslots' }],
+    [{ name: 'Venues', target: '/venues' }, { name: 'Events', target: '/events' }, { name: 'Venue Managers', target: '/staffs' }]];
   if (!getJwtToken()) {
     navigate('/login');
   }
   const role = getCurrentUser()?.typeUserCode;
-  console.log(role);
+  // console.log(role);
   return (
     <Grid
       container
@@ -30,30 +30,28 @@ function Layoutt({ contentData }) {
     >
       <Grid item md={3}>
         <ListItem
-          secondaryAction={(
-            <IconButton edge="end" aria-label="comments">
-              <AddIcon />
-            </IconButton>
-            )}
           divider
           onClick={() => navigate('/profile')}
         >
+
           <ListItemButton>
             <ListItemText primary="Profile" />
           </ListItemButton>
+
         </ListItem>
         {actionList[role].map((item) => (
           <ListItem
             key={actionList[role].indexOf(item)}
-            secondaryAction={(
-              <IconButton edge="end" aria-label="comments">
-                <AddIcon />
-              </IconButton>
-            )}
+            // secondaryAction={(
+            //   <IconButton edge="end" aria-label="comments">
+            //     <AddIcon />
+            //   </IconButton>
+            // )}
             divider
             onClick={() => navigate(item.target)}
           >
             <ListItemButton>
+
               <ListItemText sx={{ textOverflow: 'ellipsis' }} primary={item.name} />
             </ListItemButton>
           </ListItem>

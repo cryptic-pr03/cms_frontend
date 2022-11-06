@@ -1,49 +1,30 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
+import HelpIcon from '@mui/icons-material/Help';
+import InfoIcon from '@mui/icons-material/Info';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import './footer.css';
 
-function Copyright() {
+function Footer() {
   return (
-    <Typography variant="body2" color="text.secondary">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>
-      {' '}
-      {new Date().getFullYear()}
-      .
-    </Typography>
+    <footer>
+      <h5>Reach out to us on</h5>
+      <ul>
+        <li>
+          <a href="/about"><InfoIcon /></a>
+        </li>
+        <li>
+          <a href="/help"><HelpIcon /></a>
+        </li>
+        <li>
+          <a href="https://github.com/cryptic-pr03/cms_frontend" target="_blank" rel="noreferrer"><GitHubIcon /></a>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noreferrer"><YouTubeIcon /></a>
+        </li>
+      </ul>
+    </footer>
   );
 }
 
-export default function Footer() {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Box
-        component="footer"
-        sx={{
-          py: 3,
-          px: 2,
-          mt: 'auto',
-          backgroundColor: (theme) => (theme.palette.mode === 'light'
-            ? theme.palette.grey[200]
-            : theme.palette.grey[800]),
-        }}
-      >
-        <Container maxWidth="sm">
-          <Typography variant="body1">
-            My sticky footer can be found here.
-          </Typography>
-          <Copyright />
-        </Container>
-      </Box>
-    </Box>
-  );
-}
+export default Footer;
