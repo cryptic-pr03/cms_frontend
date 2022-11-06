@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RegisterForm from '../components/RegisterForm';
+import RegisterForm from '../components/forms/RegisterForm';
 import myAxios from '../config/axios';
 import { getJwtToken } from '../helpers/AuthManager';
 
@@ -23,7 +23,8 @@ function RegisterPage() {
           ...data,
           typeUserCode: parseInt(data.typeUserCode, 10),
           id: 0,
-          gender: 'Male',
+          // eslint-disable-next-line no-unsafe-optional-chaining
+          DOB: `${data.DOB?.$D}/${data.DOB?.$M + 1}/${data.DOB?.$y}`,
         },
       }).then((res) => {
         console.log(res);

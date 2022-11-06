@@ -1,45 +1,43 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import EventCard from '../components/cards/EventCard';
-import AddEventModal from '../components/modals/AddEventModal';
+import VenueCard from '../components/cards/VenueCard';
+import AddVenueModal from '../components/modals/AddVenueModal';
 import { myPrivateAxios } from '../config/axios';
 import { getCurrentUser, getJwtToken } from '../helpers/AuthManager';
 import Layoutt from '../layouts/Layoutt';
 
-function EventPage() {
-  const [eventList, setEventList] = useState([]);
+function VenuePage() {
+  const [venueList, setVenueList] = useState([]);
   console.log(getJwtToken());
   if (!getJwtToken()) {
     navigate('/login');
   }
   const user = getCurrentUser();
-  
-  const getEventList = async () => {
+
+  const getVenueList = async () => {
     await myPrivateAxios({
       method: 'get',
-      url: '/event/all',
+      url: '/venue/all',
     }).then((res) => {
       console.log(res.data);
-      setEventList(res.data);
+      setVenueList(res.data);
     }).catch((err) => console(err.response));
   };
 
   useEffect(() => {
-    getEventList();
+    getVenueList();
   }, []);
 
-
-
-  async function handleDelete(deleteEvent) {
+  async function handleDelete(deleteVenue) {
     await myPrivateAxios({
       method: 'delete',
-      url: `/event/${deleteEvent.eventId}`,
+      url: `/venue/${deleteVenue.venueId}`,
     }).then((res) => {
       console.log(res.data);
-      setEventList((eventList) => eventList.filter((event) => event !== deleteEvent));
+      setVenueList((venueList) => venueList.filter((venue) => venue !== deleteVenue));
     }).catch((err) => console.log(err));
   }
-  
+
   return (
     <Layoutt contentData={
       <>
@@ -49,13 +47,13 @@ function EventPage() {
           alignContent: "center"
         }}>
           <Typography variant="h4" sx={{ m: 3 }} >
-            {eventList.length === 0 && <> NO EVENTS TO DISPLAY</>}
-            {eventList.length !== 0 && <> EVENTS</>}
+            {venueList.length === 0 && <> NO VENUES TO DISPLAY</>}
+            {venueList.length !== 0 && <> VENUES</>}
           </Typography>
-          {user.typeUserCode === 2 && < AddEventModal buttonText={"ADD"} />}
+          {user.typeUserCode === 5 && < AddVenueModal mode={"ADD"} venueProp={{ id: 0 }} />}
         </Box>
 
-        {eventList.map((event) => <EventCard event={event} handleDelete={handleDelete} />)}
+        {venueList.map((venue) => <VenueCard venue={venue} handleDelete={handleDelete} />)}
 
       </>
     }
@@ -63,4 +61,4 @@ function EventPage() {
   );
 }
 
-export default EventPage;
+export default VenuePage;
