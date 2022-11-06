@@ -18,6 +18,7 @@ export default function VenueCard({ venue, updateStateOnDelete, updateStateOnEdi
 
 
   async function handleDelete(deleteVenue) {
+    
     await myPrivateAxios({
       method: 'delete',
       url: `/venue/${deleteVenue.venueId}`,

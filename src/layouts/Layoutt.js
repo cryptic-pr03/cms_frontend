@@ -4,6 +4,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, getJwtToken } from '../helpers/AuthManager';
+import { useEffect } from 'react';
 
 function Layoutt({ contentData }) {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function Layoutt({ contentData }) {
   if (!getJwtToken()) {
     navigate('/login');
   }
+
   const role = getCurrentUser()?.typeUserCode;
   // console.log(role);
   return (

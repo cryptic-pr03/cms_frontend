@@ -23,7 +23,7 @@ function EventPage() {
     }).then((res) => {
       console.log(res.data);
       setEventList(res.data);
-    }).catch((err) => console(err.response));
+    }).catch((err) => console.log(err.response));
   };
 
   useEffect(() => {

@@ -12,12 +12,6 @@ function StaffPage() {
   const param = useParams();
   const [staffList, setStaffList] = useState([]);
 
-
-  if (!getJwtToken()) {
-    console.log("in");
-    navigate('/login');
-    return;
-  }
   const user = getCurrentUser();
   if (user.typeUserCode < 4) {
     navigate('/unauth');
@@ -78,7 +72,7 @@ function StaffPage() {
           </Typography>
           {user.typeUserCode >=4 && < AddStaffModal mode={"ADD"} updateState={updateStateOnAdd} />}
         </Box>
-        <StaffDataGrid staff={staffList} />
+        <StaffDataGrid staff={staffList} updateStateOnDelete={updateStateOnDelete} />
       </>
     }
     />

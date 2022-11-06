@@ -1,54 +1,100 @@
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import { useState } from 'react';
 import AddStaffModal from '../modals/AddStaffModal';
+import { Button, LinearProgress } from '@mui/material';
+import { myPrivateAxios } from '../../config/axios';
 
-export default function StaffDataGrid({ staff }) {
+export default function StaffDataGrid({ staff, updateStateOnDelete }) {
+
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  const [finalClickInfo, setFinalClickInfo] = useState(null);
+  async function handleDelete(deleteStaff) {
+    setLoading(true);
+    await myPrivateAxios({
+      method: 'delete',
+      url: `/staff/${deleteStaff.staffId}`,
+    }).then((res) => {
+      console.log(res.data);
+      updateStateOnDelete(deleteStaff);
+      setLoading(false);
+    }).catch((err) => console.log(err));
+  }
 
-  const handleOnCellClick = (params) => {
-    setFinalClickInfo(params);
-    navigate(`/staffDetails/${finalClickInfo?.id}`);
-  };
-
+  
   const headings = [
-    { field: 'staffId', headerName: 'StaffNumber', width: 100 },
-    { field: 'firstName', headerName: 'First Name', width: 130 },
-    { field: 'lastName', headerName: 'Last Name', width: 130 },
-    { field: 'email', headerName: 'Email Id', width: 200 },
-    { field: 'contactNo', headerName: 'Contact Number', width: 200 },
+    { field: 'staffId', headerName: 'StaffId', width: 100 },
+    { field: 'firstName', headerName: 'First Name', width: 200 },
+    { field: 'lastName', headerName: 'Last Name', width: 200 },
+    { field: 'email', headerName: 'Email Address', width: 250 , },
+    { field: 'contactNo', headerName: 'Contact Number', width: 150 },
+    {
+      field: "VIEW MORE",
+      renderCell: (cellValues) => {
+        return (
+          <Button
+            variant="text"
+            color="primary"
+            onClick={(e) => {
+              setLoading((prevState) => !prevState);
+              // handleClick(event, cellValues);
+              e.stopPropagation();
+              console.log(cellValues);
+              navigate(`/staffDetails/${cellValues.row.staffId}`)
+            }}
+          >
+        View More
+          </Button>
+        );
+      },
+      width: 150,
+      headerAlign: 'center', 
+    },
+    {
+      field: "DELETE",
+      renderCell: (cellValues) => {
+        return (
+          <Button
+            variant="text"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log(cellValues.row);
+              handleDelete(cellValues.row);
+            }}
+          >
+          DELETE
+          </Button>
+        );
+      },
+      width: 150,
+      headerAlign: 'center', 
+
+    }
   ];
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ display: 'flex', height: '80vh',flexGrow: 1 }}>
       <DataGrid
         sx={{
-          boxShadow: 2,
-          border: 2,
-          borderColor: 'black',
-          '& .MuiDataGrid-cell:hover': {
-            color: 'primary.main',
-          },
+          boxShadow:1,
+          backgroundColor: "#ffffff"
         }}
         rows={staff}
         columns={headings}
-        pageSize={5}
         rowsPerPageOptions={[5]}
+        disableSelectionOnClick
+        experimentalFeatures={{ newEditingApi: true }}
+        hideFooter={true}
         components={{
-          Toolbar: GridToolbar,
+          LoadingOverlay: LinearProgress,
         }}
-        onCellClick={handleOnCellClick}
+        loading = {loading}
+      // components={{
+      //   Toolbar: GridToolbar,
+      // }}
       />
-      {finalClickInfo
-        && `Final clicked id = ${finalClickInfo.id}, 
-        Final clicked field = ${finalClickInfo.field}, 
-        Final clicked value = ${finalClickInfo.value}`}
-      {!finalClickInfo && 'Click on a column'}
-
-
     </div>
-
   );
 }

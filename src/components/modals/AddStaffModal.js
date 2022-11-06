@@ -29,11 +29,13 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
 
 
   const [venueList, setVenueList] = useState([]);
+
   const getVenueList = async () => {
     await myPrivateAxios({
       method: 'get',
       url: '/venue/all',
     }).then((res) => {
+      console.log(res.data);      
       setVenueList(res.data);
     }).catch((err) => console(err.response));
   };
@@ -72,12 +74,13 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
 
   const handleOnSubmit = async (data) => {
     setloading(true);
+    console.log(data);
     data = {
       ...data,
-      ["DOB"]: `${data.DOB?.$D}/${data.DOB?.$M + 1}/${data.DOB?.$y}`,
+      DOB: `0${data.DOB?.$y}`.slice(-4) + "-" + `0${data.DOB?.$M + 1}`.slice(-2) + "-" +  `0${data.DOB?.$D}`.slice(-2),
       joiningDate: getCurrentDate(),
       staffId: 0,
-      // venueId: 0,
+      groupNumber: 0,
       role: user.typeUserCode - 1,
     },
     console.log(data);
@@ -88,10 +91,12 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
     }).then((res) => {
       console.log("res", res.data);
       setOpen(false);
+      setloading(false);
       updateState(res.data);
     }).catch((err) => console.log(err.response));
   };
 
+  console.log(venueList);
   return (
     <>
       {/* {loading && <Backdrop
@@ -124,6 +129,7 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                 flexDirection: 'row',
                 flexWrap: 'wrap',
                 justifyContent: 'space-around',
+                alignContent:'space-around'
               }}
               >
                 <Grid item xs={5}>
@@ -132,13 +138,13 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                     autoFocus
                     fullWidth
                     margin="normal"
-                    id="firstname"
+                    id="firstName"
                     label="First Name"
-                    name="firstname"
+                    name="firstName"
                     required
-                    {...register('firstname', { required: 'First Name Required', })}
-                    error={Boolean(errors.firstname)}
-                    helperText={errors.firstname?.message}
+                    {...register('firstName', { required: 'First Name Required', })}
+                    error={Boolean(errors.firstName)}
+                    helperText={errors.firstName?.message}
                   />
                 </Grid>
 
@@ -147,13 +153,13 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                     defaultValue={staffProp?.lastName}
                     fullWidth
                     margin="normal"
-                    id="lastname"
+                    id="lastName"
                     label="Last Name"
-                    name="lastname"
+                    name="lastName"
                     required
-                    {...register('lastname', { required: 'Last Name Required', })}
-                    error={Boolean(errors.lastname)}
-                    helperText={errors.lastname?.message}
+                    {...register('lastName', { required: 'Last Name Required', })}
+                    error={Boolean(errors.lastName)}
+                    helperText={errors.lastName?.message}
                   />
                 </Grid>
 
@@ -207,6 +213,7 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                     id="salary"
                     name="salary"
                     margin="normal"
+                    type="number"
                     required
                     {...register('salary', {
                       required: 'Salary required.',
@@ -220,49 +227,7 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                   />
                 </Grid>
 
-                <Grid item xs={5}>
-                  <TextField
-                    select
-                    fullWidth
-                    required
-                    id='gender'
-                    name='gender'
-                    label="Gender"
-                    defaultValue={staffProp?.gender ?? "Male"}
-                    inputProps={register('gender', {
-                      required: 'Please enter gender.',
-                    })}
-                    error={errors.gender}
-                    helperText={errors.gender?.message}
-                  >
-                    <MenuItem value="Male" {...register('gender')}>Male</MenuItem>
-                    <MenuItem value="Female" {...register('gender')}>Female</MenuItem>
-                    <MenuItem value="NA" {...register('gender')}>Prefer not to say</MenuItem>
-                  </TextField>
 
-                </Grid>
-
-                <Grid item xs={5}>
-                  <TextField
-                    select
-                    fullWidth
-                    required
-                    id='venueId'
-                    name='venueId'
-                    label="Venue"
-                    defaultValue={staffProp?.venueId ?? ""}
-                    inputProps={register('venueId', {
-                      required: 'Please enter venueId.',
-                    })}
-                    error={errors.venueId}
-                    helperText={errors.venueId?.message}
-                  >
-                    {venueList.map((venue)=>{
-                      <MenuItem value={venue.venueId} {...register('venueId')}>{venue.name}</MenuItem>
-                    })}
-                  </TextField>
-
-                </Grid>
                 <Grid item xs={5}>
                   <Controller
                     id="DOB"
@@ -293,23 +258,6 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                         </Stack>
                       </LocalizationProvider>
                     )}
-                  />
-                </Grid>
-
-                <Grid item xs={5}>
-                  <TextField
-                    defaultValue={staffProp?.groupNumber}
-                    fullWidth
-                    margin="normal"
-                    id="groupNumber"
-                    name="groupNumber"
-                    label="Group Number"
-                    required
-                    {...register('groupNumber', {
-                      required: 'Group Number Required',
-                    })}
-                    error={Boolean(errors.groupNumber)}
-                    helperText={errors.groupNumber?.message}
                   />
                 </Grid>
 
@@ -347,12 +295,53 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                   />
                 </Grid>
 
+                <Grid item xs={5}>
+                  <TextField
+                    select
+                    fullWidth
+                    required
+                    id='gender'
+                    name='gender'
+                    label="Gender"
+                    defaultValue={staffProp?.gender ?? "Male"}
+                    inputProps={register('gender', {
+                      required: 'Please enter gender.',
+                    })}
+                    error={errors.gender}
+                    helperText={errors.gender?.message}
+                  >
+                    <MenuItem value="Male" {...register('gender')}>Male</MenuItem>
+                    <MenuItem value="Female" {...register('gender')}>Female</MenuItem>
+                    <MenuItem value="NA" {...register('gender')}>Prefer not to say</MenuItem>
+                  </TextField>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <TextField
+                    select
+                    fullWidth
+                    required
+                    id='venueId'
+                    name='venueId'
+                    label="Venue"
+                    defaultValue={staffProp?.venueId ?? ""}
+                    inputProps={register('venueId', {
+                      required: 'Please Select Venue.',
+                    })}
+                    error={errors.venueId}
+                    helperText={errors.venueId?.message}
+                  >
+                    {venueList.map((venue)=>{
+                      return <MenuItem value={venue.venueId} key = {venue.venueId} {...register('venueId')}>{venue.name}</MenuItem>
+                    })}
+                  </TextField>
+                </Grid>
               </Box>
 
             </DialogContent>
             <DialogActions>
-              <Button type="submit">Submit</Button>
-              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={handleClose} >Cancel</Button>
+              <Button type="submit" >Submit</Button>
             </DialogActions>
 
           </Box>

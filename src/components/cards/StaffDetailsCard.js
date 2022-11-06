@@ -7,8 +7,8 @@ import { Box, CardActionArea, CardActions } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
 export default function StaffDetailsCard({ staff }) {
-  const navigate = useNavigate();
 
+  console.log(staff);
   return (
     <div>
       <Box sx={{ width: '80%', margin: 'auto', mt: 5 }}>
