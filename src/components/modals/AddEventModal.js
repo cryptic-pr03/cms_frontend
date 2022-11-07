@@ -17,12 +17,17 @@ import { DesktopDatePicker } from '@mui/x-date-pickers';
 import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react';
 import myAxios from '../../config/axios';
+import { getFormattedDate, getFormattedTime } from '../../helpers/utils';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 
-export default function AddEventModal({ prop }) {
+
+export default function AddEventModal({mode , eventProp, updateState}) {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [eventObj, setEventObj] = useState([]);
   const [disableButton, setDisableButton] = useState(false);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -38,61 +43,33 @@ export default function AddEventModal({ prop }) {
     mode: 'onBlur',
   });
 
-  const getCurrentDate = (separator = '-') => {
-    const newDate = new Date();
-    const date = newDate.getDate();
-    const month = newDate.getMonth() + 1;
-    const year = newDate.getFullYear();
-
-    return `${date < 10 ? `0${date}` : `${date}`}${month < 10 ? `0${month}` : `${month}`}${separator}${year}${separator}`;
-  };
-
   const submitAddEvent = async (data) => {
+    console.log("Requesting here :");
+    // console.log(data);
+    data = {
+      ...data,
+      eventId: 0,
+      eventDate: getFormattedDate(data.eventDate),
+      startTime: getFormattedTime(data.startTime),
+      endTime: getFormattedTime(data.endTime),
+    }
     console.log(data);
-    try {
-      await myAxios({
-        method: 'post',
-        url: '/event',
-        data: {
-          ...data,
-          eventId: 0,
-          // eslint-disable-next-line no-unsafe-optional-chaining
-        },
-      }).then((res) => {
-        console.log(res);
-        alert(res.data);
-        navigate('/events');
-      });
-    } catch (err) {
-      alert(err.response.data);
-    }
-  };
-
-  const getEvent = async () => {
-    try {
-      await myAxios({
-        method: 'get',
-        url: `/event/id/${prop}`,
-      }).then((res) => {
-        // console.log(res.data);
-        setEventObj(res.data);
-        setDisableButton(eventObj.eventDate > getCurrentDate());
-        // alert(res.data);
-      });
-    } catch (err) {
-      alert(err.response.data);
-    }
-  };
-
-  useEffect(() => {
-    getEvent();
-    // console.log(eventObj);
-  }, []);
+    await myAxios({
+      method: 'post',
+      url: '/event',
+      data
+    }).then((res) => {
+      console.log(res.data);
+      // navigate('/events');
+    }).catch((err) =>
+      console.log(err.response.data));
+  }
 
   return (
     <>
       <Button variant="outlined" onClick={handleClickOpen}>
-                Add Event
+        {mode == "ADD" && <AddIcon />}
+        {mode == "EDIT" && <EditIcon />}
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
@@ -104,24 +81,19 @@ export default function AddEventModal({ prop }) {
             noValidate
           >
             <DialogContent>
-              <DialogContentText textAlign="center">
-                                Add Event
-              </DialogContentText>
+
               <Box sx={{
                 display: 'flex',
                 flexDirection: 'row',
                 flexWrap: 'wrap',
                 justifyContent: 'space-around',
                 alignItems: 'center',
-                // flexWrap: 'wrap',
-                // p: 5,
-                // m: 3,
               }}
               >
                 <Grid item xs={5}>
                   <Box> </Box>
                   <TextField
-                    defaultValue={eventObj ? eventObj.eventName : ''}
+                    // defaultValue={eventObj ? eventObj.eventName : ''}
                     fullWidth
                     autoFocus
                     margin="normal"
@@ -138,29 +110,29 @@ export default function AddEventModal({ prop }) {
                 </Grid>
                 <Grid item xs={5}>
                   <Controller
-                    name="evenDate"
+                    name="eventDate"
                     control={control}
-                    render={({ field: { onChange, ...restField } }) => (
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <Stack spacing={3} marginTop={1}>
-                          <DesktopDatePicker
-                            label="Event Date"
-                            inputFormat="DD/MM/YYYY"
-                            disableFuture
-                            onChange={(event) => { onChange(event); }}
-                            renderInput={(params) => (
-                              <TextField
-                                defaultValue={eventObj ? eventObj.eventDate : ''}
-                                fullWidth
-                                required
-                                {...params}
-                              />
-                            )}
-                            {...restField}
-                          />
-                        </Stack>
-                      </LocalizationProvider>
-                    )}
+                    render={
+                      ({ field: { onChange, ...restField } }) => (
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <Stack spacing={3} marginTop={1}>
+                            <DesktopDatePicker
+                              label="Event Date"
+                              inputFormat="DD/MM/YYYY"
+                              disablePast
+                              onChange={(event) => { onChange(event); }}
+                              renderInput={(params) => (
+                                <TextField
+                                  // fullWidth
+                                  required
+                                  {...params}
+                                />
+                              )}
+                              {...restField}
+                            />
+                          </Stack>
+                        </LocalizationProvider>
+                      )}
                   />
                 </Grid>
                 <Grid item xs={5}>
@@ -172,8 +144,11 @@ export default function AddEventModal({ prop }) {
                         <Stack spacing={3} marginTop={3}>
                           <TimePicker
                             label="Start Time"
+                            ampm={false}
                             onChange={(event) => { onChange(event); }}
-                            renderInput={(params) => <TextField defaultValue={eventObj ? eventObj.eventStartTime : ''} fullWidth required {...params} />}
+                            renderInput={(params) => <TextField
+                              // defaultValue={eventObj ? eventObj.eventStartTime : ''}
+                              fullWidth required {...params} />}
                             {...restField}
                           />
                         </Stack>
@@ -190,8 +165,11 @@ export default function AddEventModal({ prop }) {
                         <Stack spacing={3} marginTop={3}>
                           <TimePicker
                             label="End Time"
+                            ampm={false}
                             onChange={(event) => { onChange(event); }}
-                            renderInput={(params) => <TextField defaultValue={eventObj ? eventObj.eventEndTime : ''} fullWidth required {...params} />}
+                            renderInput={(params) => <TextField
+                              // defaultValue={eventObj ? eventObj.endTime : ''} 
+                              fullWidth required {...params} />}
                             {...restField}
                           />
                         </Stack>
@@ -201,12 +179,12 @@ export default function AddEventModal({ prop }) {
                 </Grid>
                 <Grid item xs={5}>
                   <TextField
-                    defaultValue={eventObj ? eventObj.eventAge : ''}
                     fullWidth
                     margin="normal"
                     id="standard-adornment-amount"
                     label="Age Limit"
                     name="ageLimit"
+                    type="number"
                     required
                     {...register('ageLimit', {
                       required: 'Age Limit Required',
@@ -221,7 +199,6 @@ export default function AddEventModal({ prop }) {
                 </Grid>
                 <Grid item xs={5}>
                   <TextField
-                    defaultValue={eventObj ? eventObj.eventLogoUrl : ''}
                     fullWidth
                     margin="normal"
                     id="standard-adornment-amount"
@@ -237,7 +214,6 @@ export default function AddEventModal({ prop }) {
                 </Grid>
                 <Grid item xs={11}>
                   <TextField
-                    defaultValue={eventObj ? eventObj.description : ''}
                     fullWidth
                     multiline
                     rows={4}
@@ -248,6 +224,21 @@ export default function AddEventModal({ prop }) {
                     required
                     {...register('description', {
                       required: 'Description Required',
+                    })}
+                    error={Boolean(errors.price)}
+                    helperText={errors.price?.message}
+                  />
+                </Grid>
+                <Grid item xs={11}>
+                  <TextField
+                    autoFocus
+                    margin="normal"
+                    id="standard-adornment-amount"
+                    label="Sponsor Name"
+                    name="sponsorName"
+                    required
+                    {...register('sponsorName', {
+                      required: 'Sponsor Name Required',
                     })}
                     error={Boolean(errors.price)}
                     helperText={errors.price?.message}

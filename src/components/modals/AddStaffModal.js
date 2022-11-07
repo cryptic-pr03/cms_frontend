@@ -35,7 +35,7 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
       method: 'get',
       url: '/venue/all',
     }).then((res) => {
-      console.log(res.data);      
+      console.log(res.data);
       setVenueList(res.data);
     }).catch((err) => console(err.response));
   };
@@ -43,7 +43,8 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
     getVenueList();
   }, []);
 
-  const user = getCurrentUser();
+  const token = getCurrentUser();
+  console.log(token);
 
   console.log('staff');
   console.log(staffProp);
@@ -77,13 +78,12 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
     console.log(data);
     data = {
       ...data,
-      DOB: `0${data.DOB?.$y}`.slice(-4) + "-" + `0${data.DOB?.$M + 1}`.slice(-2) + "-" +  `0${data.DOB?.$D}`.slice(-2),
+      DOB: `0${data.DOB?.$y}`.slice(-4) + "-" + `0${data.DOB?.$M + 1}`.slice(-2) + "-" + `0${data.DOB?.$D}`.slice(-2),
       joiningDate: getCurrentDate(),
       staffId: 0,
-      groupNumber: 0,
-      role: user.typeUserCode - 1,
+      role: token.typeUserCode - 1,
     },
-    console.log(data);
+      console.log(data);
     await myPrivateAxios({
       method: 'post',
       url: '/staff',
@@ -122,14 +122,14 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
           >
             <DialogContent>
               <DialogContentText textAlign="center">
-                                Add Staff
+                Add Staff
               </DialogContentText>
               <Box sx={{
                 display: 'flex',
                 flexDirection: 'row',
                 flexWrap: 'wrap',
                 justifyContent: 'space-around',
-                alignContent:'space-around'
+                alignContent: 'space-around'
               }}
               >
                 <Grid item xs={5}>
@@ -316,6 +316,29 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                   </TextField>
                 </Grid>
 
+
+                <Grid item xs={5}>
+                  <TextField
+                    select
+                    fullWidth
+                    required
+                    id='groupNumber'
+                    name='groupNumber'
+                    label="Group"
+                    defaultValue={staffProp?.groupNumber ?? "0"}
+                    inputProps={
+                      register('groupNumber', { required: 'Please Select Group.', })
+                    }
+                    error={errors.groupNumber}
+                    helperText={errors.groupNumber?.message}
+                  >
+                    <MenuItem value={1} {...register('gender')}>Group 1</MenuItem>
+                    <MenuItem value={2} {...register('gender')}>Group 2</MenuItem>
+                    <MenuItem value={0} disabled={token.typeUserCode == 4}{...register('gender')}>Group 0</MenuItem>
+                  </TextField>
+                </Grid>
+
+
                 <Grid item xs={5}>
                   <TextField
                     select
@@ -324,19 +347,22 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                     id='venueId'
                     name='venueId'
                     label="Venue"
-                    defaultValue={staffProp?.venueId ?? ""}
-                    inputProps={register('venueId', {
-                      required: 'Please Select Venue.',
-                    })}
+                    defaultValue={staffProp?.venueId ?? token.user.venueId}
+                    inputProps={
+                      register('venueId', { required: 'Please Select Venue.', })
+                    }
+                    // (token.typeUserCode == 4) ? { readOnly: true, className: "Mui-disabled" } : {}
                     error={errors.venueId}
                     helperText={errors.venueId?.message}
                   >
-                    {venueList.map((venue)=>{
-                      return <MenuItem value={venue.venueId} key = {venue.venueId} {...register('venueId')}>{venue.name}</MenuItem>
+                    {venueList.map((venue) => {
+                      return <MenuItem value={venue.venueId} key={venue.venueId} {...register('venueId')}>{venue.name}</MenuItem>
                     })}
                   </TextField>
                 </Grid>
               </Box>
+
+
 
             </DialogContent>
             <DialogActions>
@@ -346,7 +372,7 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
 
           </Box>
         </Grid>
-      </Dialog>
+      </Dialog >
 
     </>
   );

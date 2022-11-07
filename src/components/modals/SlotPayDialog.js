@@ -4,12 +4,11 @@ import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import PaymentForm from './PayementForm';
-import PaymentModal from './modals/PayementModal';
+import PaymentModal from './PayementModal';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-export default function CheckoutDialogue(selectionModel) {
+export default function SlotPayDialog({selectedSlots}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -24,8 +23,8 @@ export default function CheckoutDialogue(selectionModel) {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open full-screen dialog
+      <Button variant="outlined" onClick={handleClickOpen} disabled={!selectedSlots.length}>
+        CONTINUE
       </Button>
       <Dialog
         fullScreen
@@ -33,6 +32,7 @@ export default function CheckoutDialogue(selectionModel) {
         onClose={handleClose}
         TransitionComponent={Transition}
       >
+        
         <Elements stripe={stripePromise}>
           <PaymentModal />
           {/* <PaymentForm /> */}

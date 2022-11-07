@@ -7,7 +7,7 @@ import { myPrivateAxios } from '../config/axios';
 import { getCurrentUser, getJwtToken } from '../helpers/AuthManager';
 import Layoutt from '../layouts/Layoutt';
 
-function VenuePage() {
+function VenuesPage() {
   const navigate = useNavigate();
   const [venueList, setVenueList] = useState([]);
   console.log(getJwtToken());
@@ -75,4 +75,4 @@ function VenuePage() {
   );
 }
 
-export default VenuePage;
+export default VenuesPage;

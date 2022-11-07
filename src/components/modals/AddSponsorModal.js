@@ -80,19 +80,7 @@ export default function AddVenue() {
               // m: 3,
             }}
             >
-              <TextField
-                autoFocus
-                margin="normal"
-                id="standard-adornment-amount"
-                label="Sponsor Name"
-                name="sponsorName"
-                required
-                {...register('sponsorName', {
-                  required: 'Sponsor Name Required',
-                })}
-                error={Boolean(errors.price)}
-                helperText={errors.price?.message}
-              />
+
             </Box>
           </DialogContent>
           <DialogActions>

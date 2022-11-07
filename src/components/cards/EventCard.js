@@ -7,9 +7,23 @@ import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import { CardActionArea, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { myPrivateAxios } from '../../config/axios';
+import AddEventModal from '../modals/AddEventModal';
 
-export default function EventCard({ event }) {
+export default function EventCard({ event, updateStateOnDelete, updateStateOnEdit }) {
   const navigate = useNavigate();
+
+  async function handleDelete(deleteEvent) {
+    await myPrivateAxios({
+      method: 'delete',
+      url: `/event/${deleteEvent.eventId}`,
+    }).then((res) => {
+      console.log(res.data);
+      updateStateOnDelete(deleteEvent);
+    }).catch((err) => console.log(err));
+  }
+
+
 
   return (
     <Card sx={{ display: 'flex', mb: 2, height: 150 }}>
@@ -32,7 +46,7 @@ export default function EventCard({ event }) {
               {event.eventId}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-                            Artists : Description
+              Artists : Description
             </Typography>
           </CardContent>
         </Box>
@@ -44,8 +58,8 @@ export default function EventCard({ event }) {
         p: 1,
       }}
       >
-        <IconButton><DeleteIcon /></IconButton>
-        <IconButton><EditIcon /></IconButton>
+        <IconButton onClick={() => handleDelete(event)}><DeleteIcon /></IconButton>
+        < AddEventModal mode={"EDIT"} venueProp={event} updateState={updateStateOnEdit} />
       </Box>
 
     </Card>

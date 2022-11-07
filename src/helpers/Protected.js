@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { getCurrentUser, getJwtToken } from "./AuthManager";
+
 const Protected = ({ allowedRoles , children }) => {
   if (!getJwtToken()) {
     return <Navigate to="/login" replace />;

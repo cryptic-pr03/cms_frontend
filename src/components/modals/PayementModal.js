@@ -80,8 +80,8 @@ export default function FormDialog() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        CONTINUE
+      <Button variant="outlined" onClick={handleClickOpen} disabled>
+        CONTINUE ONLINE
       </Button>
 
       <Dialog open={open} onClose={handleClose}>

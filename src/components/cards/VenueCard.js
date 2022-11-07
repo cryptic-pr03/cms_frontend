@@ -35,7 +35,7 @@ export default function VenueCard({ venue, updateStateOnDelete, updateStateOnEdi
     <Card sx={{ display: 'flex', mb: 2, height: 150 }}>
       <CardActionArea
         component="div"
-        onClick={() => navigate(`/venue/${venue.venueId}`)}
+        onClick={() => navigate(`/venueDetails/${venue.venueId}`)}
       >
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           <CardMedia

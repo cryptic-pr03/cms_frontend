@@ -49,7 +49,7 @@ export default function StaffDataGrid({ staff, updateStateOnDelete }) {
           </Button>
         );
       },
-      width: 150,
+      width: 110,
       headerAlign: 'center', 
     },
     {
@@ -69,9 +69,8 @@ export default function StaffDataGrid({ staff, updateStateOnDelete }) {
           </Button>
         );
       },
-      width: 150,
+      width: 80,
       headerAlign: 'center', 
-
     }
   ];
   return (
@@ -79,21 +78,18 @@ export default function StaffDataGrid({ staff, updateStateOnDelete }) {
       <DataGrid
         sx={{
           boxShadow:1,
-          backgroundColor: "#ffffff"
+          backgroundColor: "#ffffff",
+          p:5
         }}
         rows={staff}
         columns={headings}
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
-        experimentalFeatures={{ newEditingApi: true }}
-        hideFooter={true}
         components={{
           LoadingOverlay: LinearProgress,
+          Toolbar: GridToolbar,
         }}
         loading = {loading}
-      // components={{
-      //   Toolbar: GridToolbar,
-      // }}
       />
     </div>
   );

@@ -39,6 +39,7 @@ function ProfilePage() {
     navigate('/login');
   }
   const user = getCurrentUser();
+  console.log(user);
 
   async function getProfileData() {
     await myPrivateAxios({
@@ -69,28 +70,28 @@ function ProfilePage() {
       <>
         {loading && <CircularProgress />}
         {!loading &&
-                    <Box sx={{ m: 5 }}>
+          <Box sx={{ m: 5 }}>
 
-                      <Box sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignContent: "center"
-                      }}>
-                        <Typography variant="h4" sx={{ m: 3 }} >
-                                Welcome {`${profile.firstName} ${profile.lastName} !`}
-                        </Typography>
-                        {/* <Button variant="text"  onClick={handleChangeProfile}> Edit Profile</Button> */}
-                        {user.typeUserCode < 3 && < AddStaffModal buttonText={"EDIT"} />}
-                      </Box>
-                      <Grid container spacing={2} sx={{}}>
-                        {cardList}
-                      </Grid>
+            <Box sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignContent: "center"
+            }}>
+              <Typography variant="h4" sx={{ m: 3 }} >
+                      Welcome {`${profile.firstName} ${profile.lastName} !`}
+              </Typography>
+              {/* <Button variant="text"  onClick={handleChangeProfile}> Edit Profile</Button> */}
+              {/* {user.typeUserCode < 3 && < AddStaffModal buttonText={"EDIT"} />} */}
+            </Box>
+            <Grid container spacing={2} sx={{}}>
+              {cardList}
+            </Grid>
 
-                      <Typography variant="h5" sx={{ m: 3 }}>
-                            Logged in as role {`${getCurrentUser().typeUserCode}`}
-                      </Typography>
+            <Typography variant="h5" sx={{ m: 3 }}>
+                  Logged in as role {`${getCurrentUser().typeUserCode}`}
+            </Typography>
 
-                    </Box>
+          </Box>
         }
       </>
     } />

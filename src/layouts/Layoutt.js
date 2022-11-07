@@ -1,27 +1,26 @@
 import {
-  Box, Grid, IconButton, ListItem, ListItemButton, ListItemText,
+  Box, Grid, ListItem, ListItemButton, ListItemText,
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, getJwtToken } from '../helpers/AuthManager';
-import { useEffect } from 'react';
 
 function Layoutt({ contentData }) {
   const navigate = useNavigate();
   // console.log(contentData);
-  const actionList = [
-    [],
-    [{ name: 'Events', target: '/events' }, { name: 'MyBookings', target: '/myBookings' }],
-    [],
-    [{ name: 'Schedule', target: '/schedule' }],
-    [{ name: 'Staff', target: '/staffs' }, { name: 'Events', target: '/events' }, { name: 'Set Schedule', target: '/setSchedule' }, { name: 'Set Slots', target: '/setslots' }],
-    [{ name: 'Venues', target: '/venues' }, { name: 'Events', target: '/events' }, { name: 'Venue Managers', target: '/staffs' }]];
   if (!getJwtToken()) {
     navigate('/login');
   }
 
   const role = getCurrentUser()?.typeUserCode;
   // console.log(role);
+
+  const actionList = [
+    [],
+    [{ name: 'Events', target: '/events' }, { name: 'MyBookings', target: '/myBookings' }],
+    [{ name: 'Slots', target: '/slots' }, { name: 'Events', target: '/events' }, { name: 'My Events', target: '/myEvents' }, { name: 'MyBookings', target: '/myBookings' }],
+    [{ name: 'Schedule', target: '/schedule' }],
+    [{ name: 'Staff', target: `/staffs` }, { name: 'Events', target: '/events' }, { name: 'Set Schedule', target: '/setSchedule' }, { name: 'Set Slots', target: '/setslots' }],
+    [{ name: 'Venues', target: '/venues' }, { name: 'Events', target: '/events' }, { name: 'Venue Managers', target: '/staffs' }]];
   return (
     <Grid
       container
@@ -44,11 +43,6 @@ function Layoutt({ contentData }) {
         {actionList[role].map((item) => (
           <ListItem
             key={actionList[role].indexOf(item)}
-            // secondaryAction={(
-            //   <IconButton edge="end" aria-label="comments">
-            //     <AddIcon />
-            //   </IconButton>
-            // )}
             divider
             onClick={() => navigate(item.target)}
           >
