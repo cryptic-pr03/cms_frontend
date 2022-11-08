@@ -37,21 +37,21 @@ function Navbar() {
   };
 
   const handleCloseNavMenu = (page) => {
-    if (page === 'Events')navigate('/events');
-    else if (page === 'Help')navigate('/help');
-    else if (page === 'About Us')navigate('/about');
-    else if (page === 'My Bookings')navigate('/bookings');
-    else if (page === 'DashBoard')navigate('/dashboard');
+    if (page === 'Events') navigate('/events');
+    else if (page === 'Help') navigate('/help');
+    else if (page === 'About Us') navigate('/about');
+    else if (page === 'My Bookings') navigate('/bookings');
+    else if (page === 'DashBoard') navigate('/dashboard');
 
     setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = (setting) => {
-    if (setting === 'Sign In')navigate('/login');
-    else if (setting === 'Logout')navigate('/logout');
-    else if (setting === 'profile')navigate('/profile');
-    else if (setting === 'Register')navigate('/register');
-    else if (setting === 'DashBoard')navigate('/dashboard');
+    if (setting === 'Sign In') navigate('/login');
+    else if (setting === 'Logout') navigate('/logout');
+    else if (setting === 'profile') navigate('/profile');
+    else if (setting === 'Register') navigate('/register');
+    else if (setting === 'DashBoard') navigate('/dashboard');
 
     setAnchorElUser(null);
   };
@@ -83,7 +83,7 @@ function Navbar() {
               CMS
             </Typography>
             <Typography variant="h4">
-              {currentUser?.user?.firstName}
+              {(currentUser?.user?.firstName ?? "") + " " + (currentUser?.user?.lastName ?? "")}
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
@@ -194,7 +194,7 @@ function Navbar() {
                   >
                     {page}
                   </Button>
-                )) }
+                ))}
               </Box>
             )}
           </Toolbar>

@@ -23,7 +23,9 @@ function EventsPage() {
       url: '/event/all',
     }).then((res) => {
       console.log(res.data);
-      setEventList(res.data);
+      if (user.typeUserCode == 2) setEventList(res.data.filter((e) => user.sub == e.email));
+      else if (user.typeUserCode == 3 || user.typeUserCode == 4) setEventList(res.data.filter((e)=> user.user.venueId == e.venueId));
+      else setEventList(res.data);
     }).catch((err) => console.log(err.response));
   };
 

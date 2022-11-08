@@ -19,6 +19,7 @@ import Protected from './helpers/Protected';
 import SlotsPage from './pages/SlotsPage';
 import VenuesPage from './pages/VenuesPage';
 import EventsPage from './pages/EventsPage';
+import SchedulePage from './pages/SchedulePage';
 
 function Routers() {
   return (
@@ -39,6 +40,7 @@ function Routers() {
       <Route exact path="/staffs" element={<StaffPage />} />
       <Route exact path="/staffs/:venueId" element={<StaffPage />} />
       <Route exact path="/staffDetails/:staffId" element={<StaffDetailsPage />} />
+      <Route exact path="/schedule" element={<SchedulePage />} />
       <Route exact path="/unauth" element={<UnauthorizedPage />} />
 
       <Route exact path="/slots" element={<SlotsPage />} />

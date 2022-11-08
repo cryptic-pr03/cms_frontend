@@ -221,7 +221,7 @@ export default function RegisterForm({ onSubmit }) {
 
           <Grid container>
             <Grid item>
-              <Link href="/register" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Login
               </Link>
             </Grid>

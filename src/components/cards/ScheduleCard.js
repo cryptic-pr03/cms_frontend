@@ -137,7 +137,10 @@ export default function ScheduleCard({ scheduleList }) {
       </div>
       <Timeline position="alternate">
         {scheduleList.filter((x) => String(x.eventDate) === String(date)).map((eventDetail) => (
-          <TimelineItem>
+          // <>
+          <TimelineItem
+            key={eventDetail.eventId}
+          >
             <TimelineOppositeContent
               sx={{
                 m: 'auto 0',
@@ -171,7 +174,7 @@ export default function ScheduleCard({ scheduleList }) {
                 sx={{
                   fontSize: 'large',
                   fontFamily: 'Caladea,'
-                  + 'fantasy',
+                    + 'fantasy',
                   fontWeight: 'bold',
                 }}
               >
@@ -182,6 +185,7 @@ export default function ScheduleCard({ scheduleList }) {
               </Typography>
             </TimelineContent>
           </TimelineItem>
+          // </>
         ))}
       </Timeline>
     </div>

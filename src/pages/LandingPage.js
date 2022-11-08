@@ -1,9 +1,16 @@
-import React from 'react'
+import CarouselLandingPage from './CarouselLandingPage.js';
+import AboutPage from './AboutPage.js';
+import EventShowing from './EventShowing.js';
+import HelpPage from './HelpPage.js';
 
-const LandingPage = () => {
+export default function LandingPage() {
   return (
-    <div>LandingPage</div>
-  )
-}
+    <>
+      <CarouselLandingPage />
+      <EventShowing />
+      <HelpPage />
+      <AboutPage />
 
-export default LandingPage
+    </>
+  );
+}
