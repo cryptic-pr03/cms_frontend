@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 function VenueDetailsPage() {
   const params = useParams();
   const user = getCurrentUser();
-  const [venueList, setVenue] = useState([]);
+  const [venue, setVenue] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   console.log("hello");
@@ -41,10 +41,10 @@ function VenueDetailsPage() {
     getVenueById();
   }, []);
   console.log('list');
-  console.log(venueList);
+  console.log(venue);
   return (
     <Layoutt contentData={
-      <VenueDetailsCard venue={venueList} />
+      <VenueDetailsCard venue={venue} />
       
       // <>
       //           Welcome to

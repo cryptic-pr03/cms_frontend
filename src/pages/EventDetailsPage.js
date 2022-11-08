@@ -6,68 +6,65 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import { CardActionArea, IconButton } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import myAxios, { myPrivateAxios } from '../config/axios';
+import { useEffect, useState } from 'react';
+import Layoutt from '../layouts/Layoutt';
+import EventDetailsCard from '../components/cards/EventDetailsCard';
 
-export default function EventCard({ event }) {
+export default function EventDetailsPage() {
   const navigate = useNavigate();
+  const params = useParams();
+  console.log(params.eventId);
+  const [eventDetails, setEventDetails] = useState({});
+  const [loading, setLoading] = useState(true);
+
+
+  // const getReviewData = async () => {
+  //   try {
+  //     console.log(event.eventId);
+  //     await myAxios({  
+  //       method: 'GET',
+  //       url: `/review/event/${event.eventId}`,
+  //     }).then((res) => {
+  //       console.log(res.data);
+  //       return res.data;
+  //     });
+  //     console.log('success');
+  //   } catch (err) {
+  //     console.log('error');
+  //     console.log(err.response);
+  //   }
+  // };
+
+  const getEventDetails = async () => {
+    try {
+      await myAxios({
+        method: 'GET',
+        url: `/event/eventDetails/${params.eventId}`
+      }).then((res) => {
+        console.log(res.data);
+        setEventDetails(res.data);
+        setLoading(false);
+      });
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+  useEffect(() => {
+    getEventDetails();
+  }, []);
 
   return (
-    <Card sx={{ display: 'flex', mb: 2, height: 150 }}>
-      <CardActionArea component="div"
-        onClick={navigate(`/events/${event.eventId}`)}
-      >
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-          <CardMedia
-            component="img"
-            sx={{
-              width: 300, fill: 'cover', height: '150px', objectFit: 'contain',
-            }}
-            image={`${process.env.PUBLIC_URL}/static/pic.png`}
-            alt="Live from space album cover"
-          />
-          <CardContent sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-
-              <Typography gutterBottom variant="h5" component="div">
-                {event.eventName}
-              </Typography>
-              <Typography gutterBottom variant="body1" component="div">
-                {event.eventDate}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {event.description}
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-
-              <Typography gutterBottom variant='h5' component="div" >
-                {`Created by ${event.firstName} ${event.lastName}`}
-              </Typography>
-              <Typography variant='body' color='text.secondary'>
-                {event.email}
-              </Typography>
-              <Typography variant='body' color='text.secondary'>
-                {event.contactNo}
-              </Typography>
-            </Box>
-
-          </CardContent>
-        </Box>
-
-      </CardActionArea>
-
-      {/* <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-around',
-                p: 1,
-            }}
-            >
-                <IconButton><DeleteIcon /></IconButton>
-                <IconButton><EditIcon /></IconButton>
-            </Box> */}
-
-    </Card>
+    <>
+      <Layoutt contentData={
+        <>
+          {!loading &&
+            <EventDetailsCard event={eventDetails} />
+          }
+        </>
+      }
+      />
+    </>
   );
 }

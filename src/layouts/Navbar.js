@@ -22,6 +22,7 @@ function Navbar() {
   const settingsLoggedIn = ['Profile', 'Logout'];
 
   const currentUser = getCurrentUser();
+  console.log(currentUser);
 
   const navigate = useNavigate();
 
@@ -81,7 +82,9 @@ function Navbar() {
             >
               CMS
             </Typography>
-
+            <Typography variant="h4">
+              {currentUser?.user?.firstName}
+            </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"

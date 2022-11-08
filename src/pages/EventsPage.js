@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import EventCard from '../components/cards/EventCard';
 import AddEventModal from '../components/modals/AddEventModal';
+import EVENTCOMPLETE from '../components/modals/EVENTCOMPLETE';
 import { myPrivateAxios } from '../config/axios';
 import { getCurrentUser, getJwtToken } from '../helpers/AuthManager';
 import Layoutt from '../layouts/Layoutt';
@@ -10,7 +11,7 @@ import Layoutt from '../layouts/Layoutt';
 function EventsPage() {
   const navigate = useNavigate();
   const [eventList, setEventList] = useState([]);
-  console.log(getJwtToken());
+  // console.log(getJwtToken());
   if (!getJwtToken()) {
     navigate('/login');
   }
@@ -62,7 +63,6 @@ function EventsPage() {
     });
   }
 
-
   return (
     <Layoutt contentData={
       <>
@@ -76,9 +76,8 @@ function EventsPage() {
             {eventList.length === 0 && <> NO EVENTS TO DISPLAY </>}
             {eventList.length !== 0 && <> EVENTS </>}
           </Typography>
-          {user.typeUserCode === 2 && < AddEventModal mode={"ADD"} updateState={updateStateOnEdit} />}
+          {user.typeUserCode === 2 && <EVENTCOMPLETE updateState={updateStateOnAdd} />}
         </Box>
-
         {eventList.map((event) =>
           <EventCard event={event}
             key={event.eventId}

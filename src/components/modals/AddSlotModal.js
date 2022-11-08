@@ -58,9 +58,7 @@ export default function AddSlot({ prop }) {
   const [currency, setCurrency] = React.useState('EUR');
   const date = new Date();
 
-  const showTime = `${date.getHours()
-  }:${date.getMinutes()
-  }:${date.getSeconds()}`;
+  const showTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   const [startTime, setStartTime] = React.useState(showTime);
   const [endTime, setEndTime] = React.useState(showTime);
   //   console.log(startTime);
@@ -105,7 +103,6 @@ export default function AddSlot({ prop }) {
           ...data,
           venueId: 1,
           slotId: 1,
-          // eslint-disable-next-line no-unsafe-optional-chaining
           slotDate: getCurrentDate(),
           isRented: false,
           startTime: `${data.startTime?.$H}/${data.startTime?.$m}/${data.startTime?.$s}`,

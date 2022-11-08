@@ -17,7 +17,7 @@ function Layoutt({ contentData }) {
   const actionList = [
     [],
     [{ name: 'Events', target: '/events' }, { name: 'MyBookings', target: '/myBookings' }],
-    [{ name: 'Slots', target: '/slots' }, { name: 'Events', target: '/events' }, { name: 'My Events', target: '/myEvents' }, { name: 'MyBookings', target: '/myBookings' }],
+    [{ name: 'Slots', target: '/slots' }, { name: 'My Events', target: '/events' }],
     [{ name: 'Schedule', target: '/schedule' }],
     [{ name: 'Staff', target: `/staffs` }, { name: 'Events', target: '/events' }, { name: 'Set Schedule', target: '/setSchedule' }, { name: 'Set Slots', target: '/setslots' }],
     [{ name: 'Venues', target: '/venues' }, { name: 'Events', target: '/events' }, { name: 'Venue Managers', target: '/staffs' }]];

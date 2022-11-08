@@ -4,13 +4,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
-import EditIcon from '@mui/icons-material/Edit';
 import { CardActionArea, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { myPrivateAxios } from '../../config/axios';
-import AddEventModal from '../modals/AddEventModal';
 
-export default function EventCard({ event, updateStateOnDelete, updateStateOnEdit }) {
+export default function EventCard({ event, updateStateOnDelete }) {
   const navigate = useNavigate();
 
   async function handleDelete(deleteEvent) {
@@ -29,7 +27,7 @@ export default function EventCard({ event, updateStateOnDelete, updateStateOnEdi
     <Card sx={{ display: 'flex', mb: 2, height: 150 }}>
       <CardActionArea
         component="div"
-        onClick={navigate(`/events/${event.eventId}`)}
+        onClick={()=>navigate(`/events/${event.eventId}`)}
       >
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           <CardMedia
@@ -58,8 +56,7 @@ export default function EventCard({ event, updateStateOnDelete, updateStateOnEdi
         p: 1,
       }}
       >
-        <IconButton onClick={() => handleDelete(event)}><DeleteIcon /></IconButton>
-        < AddEventModal mode={"EDIT"} venueProp={event} updateState={updateStateOnEdit} />
+        {/* <IconButton onClick={() => handleDelete(event)}><DeleteIcon /></IconButton> */}
       </Box>
 
     </Card>

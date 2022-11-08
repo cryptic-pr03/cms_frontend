@@ -82,8 +82,8 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
       joiningDate: getCurrentDate(),
       staffId: 0,
       role: token.typeUserCode - 1,
-    },
-      console.log(data);
+    }
+    console.log(data);
     await myPrivateAxios({
       method: 'post',
       url: '/staff',

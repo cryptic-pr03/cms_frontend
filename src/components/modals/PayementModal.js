@@ -14,7 +14,7 @@ import { myPrivateAxios } from '../../config/axios';
 export default function FormDialog() {
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
-  const [processing, setProcessing] = useState('');
+  const [processing, setProcessing] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState('');
 
@@ -80,7 +80,7 @@ export default function FormDialog() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen} disabled>
+      <Button variant="outlined" onClick={handleClickOpen} disabled={true}>
         CONTINUE ONLINE
       </Button>
 
