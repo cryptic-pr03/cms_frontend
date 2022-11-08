@@ -5,9 +5,6 @@ import { Link } from '@mui/material';
 import { Helmet } from 'react-helmet';
 
 function AboutPage() {
-  useEffect(() => {
-    document.title = 'About | CMS';
-  });
   return (
     <div className="opening-div">
       <img style={{height:'1000px'}}

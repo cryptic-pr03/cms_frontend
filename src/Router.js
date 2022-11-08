@@ -27,31 +27,27 @@ function Routers() {
 
       {/* LOGIN PAGE */}
       <Route exact path="/login" element={<LoginPage />} />
+      <Route exact path="/register" element={<RegisterPage />} />
       <Route exact path="/logout" element={<LogoutPage />} />
       {/* REGISTRATION PAGE */}
-      <Route exact path="/register" element={<RegisterPage />} />
       {/* EVENTS PAGE */}
       <Route exact path="/events" element={<EventsPage />} />
       <Route exact path="/events/:eventId" element={<EventDetailsPage />} />
-      <Route exact path="/buytickets/:eventId" element={<BuyTicketsPage />} />
-      <Route exact path="/makePayment/:eventId" element={<MakePayment />} />
 
       {/* STAFF PAGE */}
-      <Route exact path="/staffs" element={<StaffPage />} />
-      <Route exact path="/staffs/:venueId" element={<StaffPage />} />
-      <Route exact path="/staffDetails/:staffId" element={<StaffDetailsPage />} />
-      <Route exact path="/schedule" element={<SchedulePage />} />
+      <Route exact path="/staffs" element={<Protected allowedRoles={[4, 5]}> <StaffPage /> </Protected>} />
+      <Route exact path="/staffs/:venueId" element={<Protected allowedRoles={[4, 5]}>  <StaffPage /> </Protected>} />
+      <Route exact path="/staffDetails/:staffId" element={<Protected allowedRoles={[4, 5]}>  <StaffDetailsPage /></Protected>} />
+      <Route exact path="/schedule" element={<Protected allowedRoles={[2]}> <SchedulePage /></Protected> } />
       <Route exact path="/unauth" element={<UnauthorizedPage />} />
 
-      <Route exact path="/slots" element={<SlotsPage />} />
-      <Route exact path="/slots/:slotId" element={<EventDetailsPage />} />
-      <Route exact path="/makePayment/:slotId" element={<MakePayment />} />
+      <Route exact path="/slots" element={ <Protected allowedRoles={[2,4]}>  <SlotsPage /> </Protected> } />
 
-      <Route exact path="/venues" element={<VenuesPage />} />
+      <Route exact path="/venues" element={<Protected allowedRoles={[5]}>  <VenuesPage /> </Protected> } />
       <Route exact path="/venueDetails/:id" element={<VenueDetailsPage />} />
 
-      <Route exact path="/profile" element={<ProfilePage />} />
-      <Route exact path="/dashboard" element={ <Protected allowedRoles = {[1,2,3,4,5]}> <DashboardPage /> </Protected>} />
+      <Route exact path="/profile" element={<Protected allowedRoles={[1, 2, 3, 4, 5]}> <ProfilePage /> </Protected>} />
+      <Route exact path="/dashboard" element={<Protected allowedRoles={[1, 2, 3, 4, 5]}> <DashboardPage /> </Protected>} />
 
 
       <Route path="/test" element={<Test />} />
