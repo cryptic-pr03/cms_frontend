@@ -20,9 +20,10 @@ import myAxios, { myPrivateAxios } from '../../config/axios';
 import { getFormattedDate, getFormattedTime } from '../../helpers/utils';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import { getCurrentUser } from '../../helpers/AuthManager';
 
 
-export default function AddEventModal({ selectedSlots, updateState }) {
+export default function AddEventModal({ selectedSlots, updateState , setOpen}) {
 
   const {
     register, watch, handleSubmit, formState: { errors }, control,
@@ -39,18 +40,21 @@ export default function AddEventModal({ selectedSlots, updateState }) {
       eventDate: getFormattedDate(data.eventDate),
       startTime: getFormattedTime(data.startTime),
       endTime: getFormattedTime(data.endTime),
-      slots: selectedSlots
+      slots: selectedSlots,
+      email : getCurrentUser().sub
     }
     console.log(data);
-    // await myPrivateAxios({
-    //   method: 'post',
-    //   url: '/event',
-    //   data
-    // }).then((res) => {
-    //   console.log(res.data);
-    //   // navigate('/events');
-    // }).catch((err) =>
-    //   console.log(err.response.data));
+    await myPrivateAxios({
+      method: 'post',
+      url: '/transaction/payForEvent',
+      data
+    }).then((res) => {
+      console.log(res.data);
+      alert("Event Added");
+      setOpen(false);
+      window.location.reload();
+    }).catch((err) =>
+      console.log("error adding event", err.response));
   }
 
   return (

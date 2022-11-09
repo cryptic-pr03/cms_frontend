@@ -19,7 +19,7 @@ function Navbar() {
   const loggedInPages = ['DashBoard'];
   const loggedOutPages = ['Sign In', 'Register'];
 
-  const settingsLoggedIn = ['Profile', 'Logout'];
+  const settingsLoggedIn = ['Logout'];
 
   const currentUser = getCurrentUser();
   console.log(currentUser);

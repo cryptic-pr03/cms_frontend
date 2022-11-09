@@ -19,7 +19,7 @@ function Layoutt({ contentData }) {
     [{ name: 'Events', target: '/events' }, { name: 'MyBookings', target: '/myBookings' }],
     [{ name: 'Slots', target: '/slots' }, { name: 'My Events', target: '/events' }],
     [{ name: 'Schedule', target: '/schedule' }],
-    [{ name: 'Staff', target: `/staffs` }, { name: 'Events', target: '/events' }, { name: 'Set Schedule', target: '/setSchedule' }, { name: 'Set Slots', target: '/setslots' }],
+    [{ name: 'Staff', target: `/staffs` }, { name: 'Events', target: '/events' },  { name: 'Slots', target: '/slots' }],
     [{ name: 'Venues', target: '/venues' }, { name: 'Events', target: '/events' }, { name: 'Venue Managers', target: '/staffs' }]];
   return (
     <Grid

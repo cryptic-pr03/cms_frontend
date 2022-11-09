@@ -2,23 +2,15 @@ import { Box, Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar, GRID_CHECKBOX_SELECTION_COL_DEF } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import SlotPayDialog from '../components/modals/EVENTCOMPLETE';
+import AddSlotModal from '../components/modals/AddSlotModal';
 import { myPrivateAxios } from '../config/axios'
+import { getCurrentUser } from '../helpers/AuthManager';
 import Layoutt from '../layouts/Layoutt';
 
 const SlotsPage = () => {
-  const [slotsList, setSlotsList] = useState({});
+  const [slotsList, setSlotsList] = useState([]);
   const [selectionModel, setSelectionModel] = React.useState([]);
   const navigate = useNavigate();
-
-  function getCost(selectionModel) {
-    let sum = 0;
-    for (const s of selectionModel) {
-      sum = sum + parseInt(slotsList[s].price);
-    }
-    return sum;
-  }
-
 
   async function getAllSlots() {
     await myPrivateAxios({
@@ -26,20 +18,17 @@ const SlotsPage = () => {
       url: "/slot/all"
     }).then((res) => {
       console.log(res.data);
+      if (getCurrentUser().typeUserCode == 4) {
+        res.data = res.data.filter((s) => s.venueId == getCurrentUser().user.venueId);
+        console.log(res.data);
+      }
       for (let i = 0; i < res.data.length; i += 1) {
-        res.data[i] = { id: i, ...res.data[i] };
+        res.data[i] = {  ...res.data[i],id:i };
       }
       setSlotsList(res.data);
     }).catch((err) => alert(err.response));
   }
 
-  function getSelectedSlots(selectionModel) {
-    const temp = [];
-    for (const s of selectionModel) {
-      temp.push(slotsList[s]);
-    }
-    return temp;
-  }
   useEffect(() => {
     getAllSlots();
   }, [])
@@ -49,14 +38,20 @@ const SlotsPage = () => {
   function SlotDataGrid() {
     const [loading, setLoading] = useState(false);
 
-    async function handleDelete(deleteStaff) {
+    async function handleDelete(deleteSlot) {
       setLoading(true);
+      if (deleteSlot.isRented) {
+        alert("SLOT ALREADY BOOKED! CAN'T DELETE!!");
+        setLoading(false);
+        return;
+      } 
       await myPrivateAxios({
         method: 'delete',
-        url: `/staff/${deleteStaff.staffId}`,
+        url: `/slot/${deleteSlot.venueId}/${deleteSlot.slotId}/${deleteSlot.slotDate}`,
       }).then((res) => {
         console.log(res.data);
         setLoading(false);
+        setSlotsList((slotsList) => slotsList.filter((s) => s.slotId !== deleteSlot.slotId))
       }).catch((err) => console.log(err));
     }
 
@@ -89,6 +84,28 @@ const SlotsPage = () => {
           );
         },
       },
+      (getCurrentUser().typeUserCode == 4 &&
+      {
+        field: "DELETE",
+        renderCell: (cellValues) => {
+          return (
+            <Button
+              variant="text"
+              color="primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log(cellValues.row);
+                handleDelete(cellValues.row);
+              }}
+            >
+              DELETE
+            </Button>
+          );
+        },
+        width: 80,
+        headerAlign: 'center',
+      }
+      )
 
     ];
 
@@ -125,10 +142,24 @@ const SlotsPage = () => {
     );
   }
   return (
-    <>
-      <Layoutt contentData={SlotDataGrid()} />
-    </>
-  )
+    <Layoutt contentData={
+      <>
+        <Box sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignContent: "center",
+          marginBottom: '10px'
+        }}>
+          <Typography variant="h4" sx={{ m: 3 }} >
+            SLOTS
+          </Typography>
+          {getCurrentUser().typeUserCode === 4 && <AddSlotModal slotsList={slotsList} />}
+        </Box>
+        {SlotDataGrid()}
+      </>
+    }
+    />
+  );
 }
 
 export default SlotsPage;

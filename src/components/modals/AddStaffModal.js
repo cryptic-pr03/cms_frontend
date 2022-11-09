@@ -93,6 +93,7 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
       setOpen(false);
       setloading(false);
       updateState(res.data);
+      window.location.reload();
     }).catch((err) => console.log(err.response));
   };
 

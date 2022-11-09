@@ -20,6 +20,7 @@ import SlotsPage from './pages/SlotsPage';
 import VenuesPage from './pages/VenuesPage';
 import EventsPage from './pages/EventsPage';
 import SchedulePage from './pages/SchedulePage';
+import MyBookingSPage from './pages/MyBookingsPage';
 
 function Routers() {
   return (
@@ -40,6 +41,7 @@ function Routers() {
       <Route exact path="/staffDetails/:staffId" element={<Protected allowedRoles={[4, 5]}>  <StaffDetailsPage /></Protected>} />
       <Route exact path="/schedule" element={<Protected allowedRoles={[2]}> <SchedulePage /></Protected> } />
       <Route exact path="/unauth" element={<UnauthorizedPage />} />
+      <Route exact path="/myBookings" element={<MyBookingSPage />} />
 
       <Route exact path="/slots" element={ <Protected allowedRoles={[2,4]}>  <SlotsPage /> </Protected> } />
 

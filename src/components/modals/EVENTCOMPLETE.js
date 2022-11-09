@@ -89,7 +89,7 @@ export default function EVENTCOMPLETE({updateStateOnAdd}) {
               <Box sx={{ textAlign: 'center', p: 3 }}>
                 <Typography variant="h4"> ENTER EVENT DETAILS</Typography>
               </Box>
-              <AddEventModal selectedSlots={getSelectedSlots(selectionModel)} updateState={updateStateOnAdd}/>
+              <AddEventModal selectedSlots={getSelectedSlots(selectionModel)} updateState={updateStateOnAdd} setOpen={setOpen}/>
 
               <PaymentModal />
             </Elements>

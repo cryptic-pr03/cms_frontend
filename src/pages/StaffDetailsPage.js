@@ -1,8 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { myPrivateAxios } from '../config/axios';
-import StaffDetailsCard from '../components/cards/StaffDetailsCard';
+// import StaffDetailsCard from '../components/cards/StaffDetailsCard';
 import Layoutt from '../layouts/Layoutt';
+import StaffDetailsCard from '../components/cards/StaffDetailsCard ';
 
 
 function StaffDetailsPage() {

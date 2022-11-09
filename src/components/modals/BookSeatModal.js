@@ -13,6 +13,7 @@ import { myPrivateAxios } from '../../config/axios';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import SeatsDataGrid from '../cards/SeatsDataGrid';
+import axios from 'axios';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
@@ -64,7 +65,16 @@ export default function BookSeatModal({ event }) {
   async function handlePay() {
     const selectedSeats = getSelectedSeats(selectionModel);
     console.log(selectedSeats);
-
+    await myPrivateAxios({
+      method: 'post',
+      url: `/transaction/payForSeat`,
+      data : selectedSeats
+    }).then((res)=>{
+      console.log(res.data);
+      alert("Seat Booked");
+      setOpen(false);
+      window.location.reload();
+    }).catch((err)=> console.log(err.response));
 
   }
 
@@ -88,12 +98,10 @@ export default function BookSeatModal({ event }) {
 
             <Elements stripe={stripePromise}>
               <Typography variant="h4"> SELECT SEATS </Typography>
-              {!fetching && <SeatsDataGrid seatsList={seatsList} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />}
+              {!fetching && <SeatsDataGrid seatsList={seatsList} selectionModel={selectionModel} setSelectionModel={setSelectionModel} setOpen = {setOpen}/>}
               <Button variant="contained" type="submit" disabled={!getSelectedSeats(selectionModel).length} onClick={handlePay}> PAY NOW </Button>
               <PaymentModal />
             </Elements>
-
-
           </Box>
         </Box>
       </Dialog >

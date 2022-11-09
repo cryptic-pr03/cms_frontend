@@ -15,9 +15,9 @@ import { useForm } from 'react-hook-form';
 
 export default function EventDetailsCard({ event, loading }) {
   const navigate = useNavigate();
+  console.log(event);
 
-  const [gNo, setGNo] = useState();
-  const [staff, setStaff] = useState([]);
+  const [gNo, setGNo] = useState(null);
   const [loadingg, setLoading] = useState(true);
   const currentUser = getCurrentUser();
 
@@ -46,26 +46,20 @@ export default function EventDetailsCard({ event, loading }) {
       url: `/worksFor/getAllWorkersByEvent/${event.eventId}`
     }).then(async (res) => {
       console.log(res.data);
-      setStaff(res.data);
-      if (staff.length) {
-        await myPrivateAxios.get(`/staff/id/${staff[0]}`).then((ress) => {
+      if (res.data.length) {
+        console.log("second request")
+        await myPrivateAxios.get(`/staff/id/${res.data[0]}`).then((ress) => {
           console.log(ress.data);
           setGNo(ress.data.groupNumber);
-          setLoading(false);
         }).catch((err) => console.log(err.response));
       }
+      console.log("fetched")
+      setLoading(false);
     }).catch((err) => console.log(err.response));
   }
 
-
-
-
   useEffect(() => {
-    if (currentUser.typeUserCode === 4) {
-      console.log("getting grp no");
-      getStaff();
-      console.log("got grp no");
-    }
+    getStaff();
   }, []);
 
 
@@ -99,107 +93,131 @@ export default function EventDetailsCard({ event, loading }) {
   // console.log(watch());
   return (
     <div>
-      <Box sx={{ width: '80%', margin: 'auto', mt: 5 }}>
-        <Stack spacing={2}>
-          <Typography color="primary" variant="h6">
-            {event.name}
-          </Typography>
 
-        </Stack>
-      </Box>
-      <Card
-        sx={{
-          maxWidth: '80%',
-          margin: 'auto',
-          mt: 5,
-          borderRadius: 2,
-          boxShadow: 1,
-          height: '50%',
-        }}
-      >
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="1%"
-            image={`${process.env.PUBLIC_URL}/static/pic.png`}
-            alt="../../public/static/trial.jpg"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              Date :
-              {event.eventDate}
-            </Typography>
-            <Typography gutterBottom variant="h6" component="div">
-              Timings :
-              {event.startTime}
-              -
-              {event.endTime}
-            </Typography>
-            <Typography gutterBottom variant="h6" component="div">
-              Age Limit :
-              {event.ageLimit}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Description of the event :
-              {event.description}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          {currentUser.typeUserCode === 4 &&
-            <Box
-              component="form" onSubmit={handleSubmit(onSubmit)} noValidate
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                margin: 'auto',
-              }}>
-              <TextField
-                select
-                required
-                sx={{
-                  width: 400,
-                  mr: 5
-                }}
-                label="Working Staff Group"
-                defaultValue={gNo ? gNo : 1}
-                disabled={!staff.length ? true : false}
-                inputProps={register('groupNumber', {
-                  required: 'Please assign staffs to this event.',
-                })}
-                error={errors.groupNumber}
-                helperText={errors.groupNumber?.message}
-              >
-                <MenuItem value={1} {...register('groupNumber')}>Group 1 </MenuItem>
-                <MenuItem value={2} {...register('groupNumber')}>Group 2</MenuItem>
-              </TextField>
-              {!staff.length &&
-                <Button
-                  type="submit"
-                  variant="contained"
+      {!loadingg &&
+        <>
+          <Box sx={{ width: '80%', margin: 'auto', mt: 5 }}>
+            <Stack spacing={2}>
+              <Typography color="primary" variant="h6">
+                {event.name}
+              </Typography>
+
+            </Stack>
+          </Box>
+          <Card
+            sx={{
+              maxWidth: '80%',
+              margin: 'auto',
+              mt: 5,
+              borderRadius: 2,
+              boxShadow: 1,
+              height: '50%',
+            }}
+          >
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="1%"
+                image={`${process.env.PUBLIC_URL}/static/pic.png`}
+                alt="../../public/static/trial.jpg"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Date :
+                  {event.eventDate}
+                </Typography>
+                <Typography gutterBottom variant="h6" component="div">
+                  Timings :
+                  {event.startTime}
+                  -
+                  {event.endTime}
+                </Typography>
+                <Typography gutterBottom variant="h6" component="div">
+                  Venue :
+                  {event.venueName}
+                </Typography>
+                <Typography gutterBottom variant="h6" component="div">
+                  Location :
+                  {event.city}
+                  ,
+                  {event.state}
+                </Typography>
+                <Typography gutterBottom variant="h6" component="div">
+                  LandMark :
+                  {event.landmark}
+                </Typography>
+                <Typography gutterBottom variant="h6" component="div">
+                  Sponsers :{event.sponsors.map((sponser, index) => (
+                    <li key={index}>
+                      {sponser}
+                    </li>
+                  ))}
+                </Typography>
+                <Typography gutterBottom variant="h6" component="div">
+                  Age Limit :
+                  {event.ageLimit}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Description of the event :
+                  {event.description}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              {currentUser.typeUserCode === 4 &&
+                <Box
+                  component="form" onSubmit={handleSubmit(onSubmit)} noValidate
                   sx={{
-                    width: 200
-                  }}
-                >
-                  ASSIGN
-                </Button>
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    margin: 'auto',
+                  }}>
+                  <TextField
+                    select
+                    required
+                    sx={{
+                      width: 400,
+                      mr: 5
+                    }}
+                    label="Working Staff Group"
+                    defaultValue={gNo == null ? 1 : gNo}
+                    disabled={gNo !== null ? true : false}
+                    inputProps={register('groupNumber', {
+                      required: 'Please assign staffs to this event.',
+                    })}
+                    error={errors.groupNumber}
+                    helperText={errors.groupNumber?.message}
+                  >
+                    <MenuItem value={1} {...register('groupNumber')}>Group 1 </MenuItem>
+                    <MenuItem value={2} {...register('groupNumber')}>Group 2</MenuItem>
+                  </TextField>
+                  {gNo == null &&
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{
+                        width: 200
+                      }}
+                    >
+                      ASSIGN
+                    </Button>
+                  }
+                </Box>
               }
-            </Box>
-          }
 
-          {!loading && currentUser.typeUserCode == 1 && <BookSeatModal event={event} />}
-        </CardActions>
+              {!loading && currentUser.typeUserCode == 1 && <BookSeatModal event={event} />}
+            </CardActions>
 
-      </Card>
-      <Box sx={{ width: '80%', margin: 'auto', mt: 5 }}>
-        <Stack spacing={2}>
-          <Typography color="primary" variant="h">
-            List of Reviews!
-          </Typography>
+          </Card>
+          <Box sx={{ width: '80%', margin: 'auto', mt: 5 }}>
+            <Stack spacing={2}>
+              <Typography color="primary" variant="h">
+                List of Reviews!
+              </Typography>
 
-        </Stack>
-      </Box>
-      {/* {review.map((reviews) => (
+            </Stack>
+          </Box>
+          {/* {review.map((reviews) => (
         <Card
           sx={{
             maxWidth: '80%', margin: 'auto', mt: 5, borderRadius: 2, boxShadow: 1,
@@ -222,7 +240,8 @@ export default function EventDetailsCard({ event, loading }) {
           <CardActions />
         </Card>
       ))} */}
-
+        </>
+      }
     </div >
 
   );

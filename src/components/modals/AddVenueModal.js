@@ -50,6 +50,7 @@ export default function AddVenueModal({ mode, venueProp, updateState }) {
       console.log("res", res.data);
       setOpen(false);
       updateState(res.data);
+      window.location.reload();
     }).catch((err) => console.log("error", err.response));
   }
 

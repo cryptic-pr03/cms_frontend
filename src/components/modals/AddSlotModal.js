@@ -20,29 +20,15 @@ import Box from '@mui/material/Box';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import myAxios from '../../config/axios';
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
+import AddIcon from '@mui/icons-material/Add';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
+import { getCurrentUser } from '../../helpers/AuthManager';
+import { getFormattedDate, getFormattedTime } from '../../config/utils';
+import { myPrivateAxios } from '../../config/axios';
 
 // prop-slotID
-export default function AddSlot({ prop }) {
+export default function AddSlotModal({ slotsList }) {
+  console.log(slotsList);
   const getCurrentDate = (separator = '-') => {
     const newDate = new Date();
     const date = newDate.getDate();
@@ -95,66 +81,70 @@ export default function AddSlot({ prop }) {
 
   const submitAddSlot = async (data) => {
     console.log(data);
+    // let sl = slotsList;
+    // console.log(sl);
+    // sl = sl.slice().sort(function (a, b) { return a.slotId <= b.slotId; });
+    // console.log(sl);
+    data = {
+      ...data,
+      venueId: getCurrentUser().user.venueId,
+      slotId: slotsList?.slice(-1)[0]?.slotId + 1 ?? 1,
+      slotDate: getFormattedDate(data.slotDate),
+      isRented: false,
+      startTime: getFormattedTime(data.startTime),
+      endTime: getFormattedTime(data.endTime),
+    }
+    console.log(data);
     try {
-      await myAxios({
+      await myPrivateAxios({
         method: 'post',
         url: '/slot',
-        data: {
-          ...data,
-          venueId: 1,
-          slotId: 1,
-          slotDate: getCurrentDate(),
-          isRented: false,
-          startTime: `${data.startTime?.$H}/${data.startTime?.$m}/${data.startTime?.$s}`,
-          endTime: `${data.endTime?.$H}/${data.endTime?.$m}/${data.endTime?.$s}`,
-        },
+        data
       }).then((res) => {
         console.log(res);
-        alert(res.data);
-        navigate('/events');
+        alert("Slot Added");
+        window.location.reload();
       });
     } catch (err) {
-      alert(err.response.data);
+      alert(err.response);
     }
   };
-
-  const getSlot = async () => {
-    console.log('getSlot');
-    try {
-      await myAxios({
-        method: 'get',
-        url: `/slot/attribute/slotId/${prop}`,
-      }).then((res) => {
-        console.log(res.data);
-        setSlotObj(res.data);
-        // alert(res.data);
-      });
-    } catch (err) {
-      alert(err.response.data);
-    }
-  };
-
-  useEffect(() => {
-    console.log('useEffect');
-    getSlot();
-    // console.log(eventObj);
-  }, []);
 
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
+        <AddIcon />
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle textAlign="center">Add Slots</DialogTitle>
         <Box component="form" onSubmit={handleSubmit(submitAddSlot)} noValidate sx={{ mt: 1, mb: 0 }}>
           <DialogContent>
-            <DialogContentText textAlign="center">
-              Create Slots for Date :
-              {' '}
-              {getCurrentDate()}
-            </DialogContentText>
+
+            <Controller
+              name="slotDate"
+              control={control}
+              render={
+                ({ field: { onChange, ...restField } }) => (
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDatePicker
+                      fullWidth
+                      label="Date of Slot"
+                      inputFormat="DD/MM/YYYY"
+                      disablePast
+                      onChange={(event) => { onChange(event); }}
+                      renderInput={(params) => (
+                        <TextField
+                          required
+                          {...params}
+                        />
+                      )}
+                      {...restField}
+                    />
+                  </LocalizationProvider>
+                )
+              }
+            />
 
             <Controller
               name="startTime"
@@ -168,7 +158,7 @@ export default function AddSlot({ prop }) {
                         label="Start Time"
                         // value={startTime}
                         onChange={(event) => { onChange(event); }}
-                        renderInput={(params) => <TextField reuquired {...params} />}
+                        renderInput={(params) => <TextField required {...params} />}
                         {...restField}
                       />
                     </Stack>
@@ -196,28 +186,13 @@ export default function AddSlot({ prop }) {
               }
             />
             <TextField
-              margin="normal"
-              id="outlined-select-currency"
-              name="currency"
-              select
-              label="Price"
-              value={currency}
-              onChange={handleChange1}
-              helperText="Please select your currency"
-            >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
               defaultValue={slotObj ? slotObj.price : ''}
               autoFocus
               margin="normal"
               id="standard-adornment-amount"
-              label="price"
+              label="Price (₹)"
               name="price"
+              type={"number"}
               required
               {...register('price', {
                 required: 'Amount Required',
@@ -231,36 +206,17 @@ export default function AddSlot({ prop }) {
               helperText={errors.price?.message}
             />
 
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              margin="normal"
-              disableFuture
-              label="Responsive"
-              openTo="year"
-              views={['year', 'month', 'day']}
-              value={value}
-              onChange={(newValue) => {
-                setValue(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider> */}
+
 
           </DialogContent>
 
           <DialogActions>
-            {/* <IconButton
-              onClick={addSlot}
-              color="primary"
-            >
-              <AddCircleRoundedIcon fontSize="large" onClick={<FormDialog />} />
-            </IconButton> */}
             <Button type="submit">Submit</Button>
             <Button onClick={handleClose}>Cancel</Button>
           </DialogActions>
         </Box>
       </Dialog>
 
-    </div>
+    </div >
   );
 }
