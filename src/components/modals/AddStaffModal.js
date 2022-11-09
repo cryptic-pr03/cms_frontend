@@ -317,50 +317,107 @@ export default function AddStaffModal({ mode, staffProp, updateState }) {
                   </TextField>
                 </Grid>
 
+                {token.typeUserCode == 4 &&
+                  <Grid item xs={5}>
+                    <TextField
+                      select
+                      fullWidth
+                      required
+                      id='groupNumber'
+                      name='groupNumber'
+                      label="Group"
+                      defaultValue={staffProp?.groupNumber ?? "1"}
+                      inputProps={
+                        register('groupNumber', { required: 'Please Select Group.', })
+                      }
+                      error={errors.groupNumber}
+                      helperText={errors.groupNumber?.message}
+                    >
+                      <MenuItem value={1} {...register('gender')}>Group 1</MenuItem>
+                      <MenuItem value={2} {...register('gender')}>Group 2</MenuItem>
+                      <MenuItem value={0} disabled={token.typeUserCode == 4}{...register('gender')}>Group 0</MenuItem>
+                    </TextField>
+                  </Grid>
+                }
 
-                <Grid item xs={5}>
-                  <TextField
-                    select
-                    fullWidth
-                    required
-                    id='groupNumber'
-                    name='groupNumber'
-                    label="Group"
-                    defaultValue={staffProp?.groupNumber ?? "0"}
-                    inputProps={
-                      register('groupNumber', { required: 'Please Select Group.', })
-                    }
-                    error={errors.groupNumber}
-                    helperText={errors.groupNumber?.message}
-                  >
-                    <MenuItem value={1} {...register('gender')}>Group 1</MenuItem>
-                    <MenuItem value={2} {...register('gender')}>Group 2</MenuItem>
-                    <MenuItem value={0} disabled={token.typeUserCode == 4}{...register('gender')}>Group 0</MenuItem>
-                  </TextField>
-                </Grid>
+                {token.typeUserCode == 5 &&
+                  <Grid item xs={5}>
+                    <TextField
+                      select
+                      fullWidth
+                      required
+                      id='groupNumber'
+                      name='groupNumber'
+                      label="Group"
+                      defaultValue={staffProp?.groupNumber ?? "0"}
+
+                      inputProps={{
+                        readOnly: true,
+                        className: "Mui-disabled",
+                        ...register('groupNumber', { required: 'Please Select Group.', })
+                      }}
+                      error={errors.groupNumber}
+                      helperText={errors.groupNumber?.message}
+                    >
+                      <MenuItem value={1} {...register('gender')}>Group 1</MenuItem>
+                      <MenuItem value={2} {...register('gender')}>Group 2</MenuItem>
+                      <MenuItem value={0} disabled={token.typeUserCode == 4}{...register('gender')}>Group 0</MenuItem>
+                    </TextField>
+                  </Grid>
+                }
 
 
-                <Grid item xs={5}>
-                  <TextField
-                    select
-                    fullWidth
-                    required
-                    id='venueId'
-                    name='venueId'
-                    label="Venue"
-                    defaultValue={staffProp?.venueId ?? token.user.venueId}
-                    inputProps={
-                      register('venueId', { required: 'Please Select Venue.', })
-                    }
-                    // (token.typeUserCode == 4) ? { readOnly: true, className: "Mui-disabled" } : {}
-                    error={errors.venueId}
-                    helperText={errors.venueId?.message}
-                  >
-                    {venueList.map((venue) => {
-                      return <MenuItem value={venue.venueId} key={venue.venueId} {...register('venueId')}>{venue.name}</MenuItem>
-                    })}
-                  </TextField>
-                </Grid>
+                {token.typeUserCode == 4 &&
+                  < Grid item xs={5}>
+                    <TextField
+                      select
+                      fullWidth
+                      required
+                      id='venueId'
+                      name='venueId'
+                      label="Venue"
+                      defaultValue={staffProp?.venueId ?? token.user.venueId}
+                      // inputProps={(mode == "EDIT") ? { readOnly: true, className: "Mui-disabled" } : {}}
+                      inputProps={{
+                        readOnly: true,
+                        className: "Mui-disabled",
+                        ...register('venueId', { required: 'Please Select Venue.', })
+                      }}
+                      // (token.typeUserCode == 4) ? {readOnly: true, className: "Mui-disabled" } : { }
+                      error={errors.venueId}
+                      helperText={errors.venueId?.message}
+                    >
+                      {venueList.map((venue) => {
+                        return <MenuItem value={venue.venueId} key={venue.venueId} {...register('venueId')}>{venue.name}</MenuItem>
+                      })}
+                    </TextField>
+                  </Grid>
+                }
+
+                {token.typeUserCode == 5 &&
+                  < Grid item xs={5}>
+                    <TextField
+                      select
+                      fullWidth
+                      required
+                      id='venueId'
+                      name='venueId'
+                      label="Venue"
+                      defaultValue={staffProp?.venueId ?? token.user.venueId}
+                      inputProps={{
+                        ...register('venueId', { required: 'Please Select Venue.', })
+                      }}
+                      error={errors.venueId}
+                      helperText={errors.venueId?.message}
+                    >
+                      {venueList.map((venue) => {
+                        return <MenuItem value={venue.venueId} key={venue.venueId} {...register('venueId')}>{venue.name}</MenuItem>
+                      })}
+                    </TextField>
+                  </Grid>
+                }
+
+
               </Box>
 
 
