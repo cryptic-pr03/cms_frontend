@@ -1,0 +1,23 @@
+footer{
+    /* min-height: calc(100vh - 70px); */
+    background-color: #2E3B55;
+    flex-shrink: 0;
+    width: 100%;
+    padding: 10px;
+}
+h5 {
+    color: white;
+    text-align: center;
+    padding-top: 6px;
+}
+footer ul li{
+    color: white;
+    list-style: none;
+    display: inline-block;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+footer ul {
+    padding: 5px;
+    text-align: center;
+}
