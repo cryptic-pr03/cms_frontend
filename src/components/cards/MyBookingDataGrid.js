@@ -8,8 +8,9 @@ import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function MyBookingDataGrid({info}) {
-  console.log(info);
+  const [pageSize, setPageSize] = useState(10);
 
+  console.log(info);
   const headings = [
     { field: 'eventName', headerName: 'Event Name', width: 150 },
     { field: 'seatId', headerName: 'Seat No.', width: 100 },
@@ -34,8 +35,10 @@ export default function MyBookingDataGrid({info}) {
           }}
           rows={info}
           columns={headings}
-
-          rowsPerPageOptions={[5]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20]}
+          pagination
           components={{
             LoadingOverlay: LinearProgress,
             Toolbar: GridToolbar,

@@ -3,8 +3,8 @@ import Carousel from 'react-bootstrap/Carousel';
 function CarouselLandingPage() {
   return (
     <Carousel  >
-      <Carousel.Item interval={1000} style={{height:'600px'}}>
-        <img style={{height:'600px'}}
+      <Carousel.Item interval={1000} style={{height:'90vh'}}>
+        <img style={{height:'90vh'}}
           className="d-block w-100"
           src={process.env.PUBLIC_URL+'/static/11.jpg'}
           alt="First slide"
@@ -14,8 +14,8 @@ function CarouselLandingPage() {
           <p>BROWSE SEAMLESSLY THROUGH THE CONCERT EVENTS AT VARIOUS VENUES AND BOOK TICKETS</p>
         </Carousel.Caption>
       </Carousel.Item>
-      <Carousel.Item interval={500} style={{height:'600px'}}>
-        <img style={{height:'600px'}}
+      <Carousel.Item interval={500} style={{height:'90vh'}}>
+        <img style={{height:'90vh'}}
           className="d-block w-100 "
           src={process.env.PUBLIC_URL+'/static/12.jpg'}
           alt="Second slide"
@@ -25,8 +25,8 @@ function CarouselLandingPage() {
           <p>BOOK VENUES FOR VARIOUS EVENTS</p>
         </Carousel.Caption>
       </Carousel.Item>
-      <Carousel.Item style={{height:'600px'}}>
-        <img style={{height:'600px'}}
+      <Carousel.Item style={{height:'90vh'}}>
+        <img style={{height:'90vh'}}
           className="d-block w-100 "
           src={process.env.PUBLIC_URL+'/static/13.jpg'}
           alt="Third slide"

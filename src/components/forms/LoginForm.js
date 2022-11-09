@@ -44,7 +44,9 @@ export default function LoginForm({ onSubmit }) {
   } = useForm();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" sx={{
+      minHeight: '73.6vh',
+    }}>
       <Box
         sx={{
           marginTop: 8,

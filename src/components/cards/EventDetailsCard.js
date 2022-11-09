@@ -96,19 +96,19 @@ export default function EventDetailsCard({ event, loading }) {
 
       {!loadingg &&
         <>
-          <Box sx={{ width: '80%', margin: 'auto', mt: 5 }}>
-            <Stack spacing={2}>
-              <Typography color="primary" variant="h6">
-                {event.name}
-              </Typography>
-
-            </Stack>
+          <Box sx={{ width: '80%', margin: 'auto', mt: 2 }} >
+            <Typography color="black" variant="h5">
+              {event?.eventName?.toUpperCase()}
+            </Typography>
           </Box>
           <Card
             sx={{
               maxWidth: '80%',
               margin: 'auto',
               mt: 5,
+              mb: 5,
+              p: 2,
+
               borderRadius: 2,
               boxShadow: 1,
               height: '50%',
@@ -180,7 +180,7 @@ export default function EventDetailsCard({ event, loading }) {
                       mr: 5
                     }}
                     label="Working Staff Group"
-                    defaultValue={gNo == null ? 1 : gNo}
+                    defaultValue={gNo == null ? null : gNo}
                     disabled={gNo !== null ? true : false}
                     inputProps={register('groupNumber', {
                       required: 'Please assign staffs to this event.',
@@ -209,14 +209,14 @@ export default function EventDetailsCard({ event, loading }) {
             </CardActions>
 
           </Card>
-          <Box sx={{ width: '80%', margin: 'auto', mt: 5 }}>
+          {/* <Box sx={{ width: '80%', margin: 'auto', mt: 5 }}>
             <Stack spacing={2}>
               <Typography color="primary" variant="h">
                 List of Reviews!
               </Typography>
 
             </Stack>
-          </Box>
+          </Box> */}
           {/* {review.map((reviews) => (
         <Card
           sx={{

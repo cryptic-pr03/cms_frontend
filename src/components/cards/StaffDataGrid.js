@@ -7,6 +7,7 @@ import { Button, LinearProgress } from '@mui/material';
 import { myPrivateAxios } from '../../config/axios';
 
 export default function StaffDataGrid({ staff, updateStateOnDelete }) {
+  const [pageSize, setPageSize] = useState(10);
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -83,12 +84,15 @@ export default function StaffDataGrid({ staff, updateStateOnDelete }) {
         }}
         rows={staff}
         columns={headings}
-        rowsPerPageOptions={[5]}
         disableSelectionOnClick
         components={{
           LoadingOverlay: LinearProgress,
           Toolbar: GridToolbar,
         }}
+        pageSize={pageSize}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        rowsPerPageOptions={[5, 10, 20]}
+        pagination
         loading = {loading}
       />
     </div>

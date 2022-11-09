@@ -8,7 +8,7 @@ import SlotPayDialog from "../modals/EVENTCOMPLETE";
 
 
 export default function SlotsDataGrid({ slotsList, selectionModel, setSelectionModel, setStep }) {
-
+  const [pageSize,setPageSize] = useState(5);
 
   const headings = [
     { field: 'name', headerName: 'Venue', width: 150 },
@@ -52,7 +52,7 @@ export default function SlotsDataGrid({ slotsList, selectionModel, setSelectionM
 
   return (
     <>
-      <div style={{ display: 'flex', height: '80vh', flexGrow: 1 }}>
+      <div style={{ display: 'flex', height: '90vh', flexGrow: 1 }}>
         <DataGrid
           sx={{
             boxShadow: 1,
@@ -61,8 +61,10 @@ export default function SlotsDataGrid({ slotsList, selectionModel, setSelectionM
           }}
           rows={slotsList}
           columns={headings}
-
-          rowsPerPageOptions={[5]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20]}
+          pagination
           components={{
             LoadingOverlay: LinearProgress,
             Toolbar: GridToolbar,

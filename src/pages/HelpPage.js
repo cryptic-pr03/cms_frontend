@@ -2,22 +2,24 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {useState} from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { Button, CardActionArea, CardActions, IconButton } from '@mui/material';
 import HelpDialog from './HelpDialog';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 export default function HelpPage() {
   const [sliderRef, setSliderRef] = useState(null);
   const [open, setOpen] = React.useState(false);
-  const [title , setTitle] =useState("");
-  const [features , setFeatures] =useState([]);
+  const [title, setTitle] = useState("");
+  const [features, setFeatures] = useState([]);
 
-  const handleClickOpen = ({card}) => {
+  const handleClickOpen = ({ card }) => {
     console.log("open");
     setTitle(card.title);
     setFeatures(card.features);
@@ -70,8 +72,8 @@ export default function HelpPage() {
   };
   const roles = [
     {
-      imageSrc:`${process.env.PUBLIC_URL}/static/14.jpg`,
-        
+      imageSrc: `${process.env.PUBLIC_URL}/static/14.jpg`,
+
       title: 'Artist Manager',
       features: [
         'Register on the website providing basic details - first name, last name, email, password, contact, gender and DOB. Choose to register as Artist Manager',
@@ -123,39 +125,44 @@ export default function HelpPage() {
   ]
 
   return (
-    <div className='content' >
-      <Button onClick={sliderRef?.slickPrev} size="medium">
-        Prev
-      </Button>
-      <Button onClick={sliderRef?.slickNext}>
-        Next
-      </Button>
-      <div className="carousel" style={{justifyContent: 'space-between'}}>
-        <Slider ref={setSliderRef}{...settings} >
+    <Box component='div' className='content' sx={{
+      display: 'flex'
+    }} >
+      <IconButton height={2} onClick={sliderRef?.slickPrev} disableRipple disableFocusRipple disableTouchRipple> sx={{ mr: - 2 }}<ArrowBackIosIcon /> </IconButton>
 
-          {roles.map((card, index) => (
-            <Box key={index}>
-              <Card sx={{margin:'auto' ,width:'75%', bgcolor: '#e7e7e7'}} >
-                <CardActionArea>
+      <Box sx={{
+        width: '90vw',
+        margin: 'auto'
+      }}>
+        <div className="carousel" style={{ justifyContent: 'space-between' }}>
+          <Slider ref={setSliderRef}{...settings} >
+            {roles.map((card, index) => (
+              <Box key={index}>
+                <Card
+                  sx={{
+                    margin: 'auto',
+                    width: '75%',
+                    bgcolor: '#e7e7e7',
+                  }} >
                   {/* <h2>{card.title}</h2> */}
-                  <CardMedia component="img" alt={card.title} image={card.imageSrc} height="250" />
+                  <CardMedia component="img" alt={card.title} image={card.imageSrc} height="300" />
                   <CardContent>
                     <Typography gutterBottom variant="h6" component="div">
                       {card.title}
                     </Typography>
                   </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button size="small" color="primary" onClick={()=>{handleClickOpen({card})}}>Show More</Button>
-                </CardActions>
-              </Card>
+                  <CardActions>
+                    <Button size="small" color="primary" onClick={() => { handleClickOpen({ card }) }}>Show More</Button>
+                  </CardActions>
+                </Card>
 
-            </Box>
-          ))}
-
-        </Slider>
-        {open && <HelpDialog title={title} content={features} handleC={handleClose}/>}
-      </div>
-    </div>
+              </Box>
+            ))}
+          </Slider>
+          {open && <HelpDialog title={title} content={features} handleC={handleClose} />}
+        </div>
+      </Box>
+      <IconButton height={2} onClick={sliderRef?.slickNext} disableRipple disableFocusRipple disableTouchRipple><ArrowForwardIosIcon /> </IconButton>
+    </Box>
   )
 }

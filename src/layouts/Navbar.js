@@ -17,7 +17,7 @@ import { getCurrentUser } from '../helpers/AuthManager';
 
 function Navbar() {
   const loggedInPages = ['DashBoard'];
-  const loggedOutPages = ['Sign In', 'Register'];
+  const loggedOutPages = ["Events", 'Sign In', 'Register'];
 
   const settingsLoggedIn = ['Logout'];
 
@@ -82,9 +82,7 @@ function Navbar() {
             >
               CMS
             </Typography>
-            <Typography variant="h4">
-              {(currentUser?.user?.firstName ?? "") + " " + (currentUser?.user?.lastName ?? "")}
-            </Typography>
+
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
@@ -140,6 +138,7 @@ function Navbar() {
             >
               CMS
             </Typography>
+            
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {currentUser && loggedInPages.map((page) => (
                 <Button
@@ -151,6 +150,10 @@ function Navbar() {
                 </Button>
               ))}
             </Box>
+
+            <Typography variant="h6" mr={4}>
+              {(currentUser?.user?.firstName.toUpperCase() ?? "") + " " + (currentUser?.user?.lastName.toUpperCase() ?? "")}
+            </Typography>
 
             {currentUser && (
               <Box sx={{ flexGrow: 0 }}>

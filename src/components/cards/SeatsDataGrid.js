@@ -8,6 +8,8 @@ import SlotPayDialog from "../modals/EVENTCOMPLETE";
 
 
 export default function SeatsDataGrid({ seatsList, selectionModel, setSelectionModel }) {
+  const [pageSize, setPageSize] = useState(10);
+
   console.log(seatsList);
 
 
@@ -38,11 +40,14 @@ export default function SeatsDataGrid({ seatsList, selectionModel, setSelectionM
           rows={seatsList}
           columns={headings}
 
-          rowsPerPageOptions={[5]}
           components={{
             LoadingOverlay: LinearProgress,
             Toolbar: GridToolbar,
           }}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20]}
+          pagination
           checkboxSelection
           isRowSelectable={(GridRowParams) => !GridRowParams.row.isBooked}
           onSelectionModelChange={(newSelectionModel) => {

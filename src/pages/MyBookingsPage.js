@@ -39,7 +39,7 @@ export default function MyBookingSPage() {
   return (
     <Layoutt contentData={
       <>
-        {/* <Box sx={{
+        <Box sx={{
           display: "flex",
           justifyContent: "space-between",
           alignContent: "center"
@@ -48,7 +48,7 @@ export default function MyBookingSPage() {
             {transactions.length === 0 && <> NO BOOKINGS TO DISPLAY</>}
             {transactions.length !== 0 && <> BOOKINGS</>}
           </Typography>
-        </Box> */}
+        </Box>
 
         <MyBookingDataGrid info={transactions} />
 

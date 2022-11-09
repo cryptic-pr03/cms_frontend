@@ -45,7 +45,9 @@ export default function RegisterForm({ onSubmit }) {
   } = useForm();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" sx={{
+      minHeight: '73.6vh',
+    }}>
       <Box
         sx={{
           marginY: 8,
