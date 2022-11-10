@@ -1,8 +1,7 @@
 import CarouselLandingPage from './CarouselLandingPage.js';
-import AboutPage from './AboutPage.js';
-import EventShowing from './EventShowing.js';
 import HelpPage from './HelpPage.js';
 import { Box } from '@mui/material';
+import "./LandingPage.css"
 
 export default function LandingPage() {
   return (

@@ -47,6 +47,7 @@ function Navbar() {
   };
 
   const handleCloseUserMenu = (setting) => {
+    if (setting === 'Events') navigate('/events');
     if (setting === 'Sign In') navigate('/login');
     else if (setting === 'Logout') navigate('/logout');
     else if (setting === 'profile') navigate('/profile');

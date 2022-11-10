@@ -128,7 +128,7 @@ export default function HelpPage() {
     <Box component='div' className='content' sx={{
       display: 'flex'
     }} >
-      <IconButton height={2} onClick={sliderRef?.slickPrev} disableRipple disableFocusRipple disableTouchRipple> sx={{ mr: - 2 }}<ArrowBackIosIcon /> </IconButton>
+      <IconButton height={2} onClick={sliderRef?.slickPrev} disableRipple disableFocusRipple disableTouchRipple ><ArrowBackIosIcon /> </IconButton>
 
       <Box sx={{
         width: '90vw',
