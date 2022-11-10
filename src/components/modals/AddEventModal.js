@@ -33,6 +33,7 @@ export default function AddEventModal({ selectedSlots, updateState , setOpen}) {
 
   //updateStateOnAdd addedEvent
   const submitAddEvent = async (data) => {
+    console.log(data);
     console.log("Requesting here :");
     data = {
       ...data,
